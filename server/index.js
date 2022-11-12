@@ -1,7 +1,6 @@
 const crypto = require('crypto-js');
 const express = require('express');
 const cors = require('cors');
-const contract = require('./contractFunctions.js');
 
 const app = express();
 
@@ -24,6 +23,12 @@ const citizenExample = {
         }
         
     };
+const diagnoseExample = {
+        diagnose: "Kadircan has a cold",
+        drug: "Paracetamol",
+        date: "23.12.2020",
+        doctor: "Dr. Kadircan Bozkurt"
+};
 const doctorExample = 
 {
     id: "10154859744",
@@ -102,14 +107,48 @@ app.post('/api/citizen/getFullInfo', (req, res) => {
     
     if(citizen.password === input.password)
         // CODE: get citizen full information 
-        res.send(citizenExample);
+        res.send(diagnoseExample);
     else
         res.status(400).send("Wrong password");
     return;
     
 });
 
-app.post('/api/doctorLogin', (req, res) => {
+app.post('/api/doctor/login', (req, res) => {
+    if (req.body == null) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+    const input = JSON.parse(JSON.stringify(req.body));
+
+    const decrypted = crypto.AES.decrypt(input.qr, masterKey).toString(crypto.enc.Utf8);
+
+    const citizenTC = "x"; // CODE: get citizen TC from blockchain and get tc
+    const citizen = authInfo.find(c => c.id === citizenTC);
+    
+    if(citizen.password === input.password)
+    {
+        const isDoctor = true;// CODE : get if doctor
+        if(isDoctor)
+        {
+            //CODE: get doctor info
+            res.send(doctorExample)
+            return;
+        }
+        else
+        {
+            res.status(400).send("Not a doctor");
+            return;
+        }
+    }
+        
+    else
+        res.status(400).send("Wrong password");
+    return;
+    
+});
+
+app.post('/api/doctor/getDiagnoses', (req, res) => {
     if (req.body == null) {
         res.status(400).send("Bad Request");
         return;
