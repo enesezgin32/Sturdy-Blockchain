@@ -53,12 +53,12 @@ contract sturdy {
 
     //admin functions
     // move eklenecek
-    function registerCitizien(address personAddress, string memory info)
-        public
-        onlyAdmin
-    {
-        citiziens[personAddress] = info;
-    }
+    // function registerCitizien(address personAddress, string memory info)
+    //     public
+    //     onlyAdmin
+    // {
+    //     citiziens[personAddress] = info;
+    // }
 
     function assignAdmin(address personAddress) public onlyAdmin {
         isAdmin[personAddress] = true;
@@ -101,11 +101,11 @@ contract sturdy {
     }
 
     // mixed functions
-    function getBasicInfo(address patientAddress)
-        public
-        view
-        returns (string memory)
-    {
-        return citiziens[patientAddress];
-    }
+    // function getBasicInfo(address patientAddress)
+    //     public
+    //     view
+    //     returns (string memory)
+    // {
+    //     return citiziens[patientAddress];
+    // }
 }
