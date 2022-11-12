@@ -7,15 +7,16 @@ error PersonNotExist();
 
 contract sturdy {
     //citiziens
-    uint64 citizienCount;
-    mapping(address => string) citiziens;
-    mapping(address => string[]) diagnoses;
+    uint64 public citizienCount;
+    mapping(address => string) private citiziens;
+    mapping(address => string[]) private diagnoses;
+    mapping(address => bool) private isHided;
 
     //admins
-    mapping(address => bool) isAdmin;
+    mapping(address => bool) public isAdmin;
 
     //doctor
-    mapping(address => bool) isDoctor;
+    mapping(address => bool) public isDoctor;
 
     constructor() payable {
         isAdmin[msg.sender] = true;
@@ -50,6 +51,7 @@ contract sturdy {
     }
 
     //admin functions
+    // move eklenecek
     function assignAdmin(address personAddress) public onlyAdmin {
         isAdmin[personAddress] = true;
     }
@@ -64,5 +66,37 @@ contract sturdy {
 
     function dismissDoctor(address personAddress) public onlyAdmin {
         isDoctor[personAddress] = false;
+    }
+
+    // doctor functions
+    function addDiagnose(address patientAddress, string calldata diagnose)
+        public
+        onlyDoctor
+    {
+        diagnoses[patientAddress].push(diagnose);
+        emit newDiagnosis(patientAddress);
+    }
+
+    function getPatientDiagnoses(address patientAddress)
+        public
+        view
+        onlyDoctor
+        returns (string[] memory)
+    {
+        return diagnoses[patientAddress];
+    }
+
+    // citizien functions
+    function getSelfDiagnoses() public view returns (string[] memory) {
+        return diagnoses[msg.sender];
+    }
+
+    // mixed functions
+    function getBasicInfo(address patientAddress)
+        public
+        view
+        returns (string memory)
+    {
+        return citiziens[patientAddress];
     }
 }
