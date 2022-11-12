@@ -23,20 +23,32 @@ const Container = styled.div`
     //border: 1px solid red;
     gap: 10%;
 `
+const BoldText = styled.div`
+    font-weight: 600;
+    display: inline;
+`
 
 function InfoCard(props) {
     const {
-        generalInfoHasta:{bloodGroup,dateOfBirth,gender,name,nationality,surname}
+        generalInfoHasta:{bloodGroup,dateOfBirth,gender,name,nationality,surname,allergies}
     } = props;
   return (
     <Container>
-        <img height="300px" width="auto" src="https://www.nicepng.com/png/detail/73-730154_open-default-profile-picture-png.png" alt="default-pp"/>
+        <img height="400px" width="auto" src="https://www.nicepng.com/png/detail/73-730154_open-default-profile-picture-png.png" alt="default-pp"/>
         <RightColumn>
-            <div style={{fontWeight:"700"}}>{`${name} ${surname}`}</div>
-            <div>Doğum tarihi: {dateOfBirth}</div>
-            <div>Kan Grubu: {bloodGroup}</div>
-            <div>Cinsiyeti: {gender}</div>
-            <div>Uyruk: {nationality}</div>
+            <div style={{fontWeight:"800"}}>{`${name} ${surname}`}</div>
+            <div><BoldText>Doğum tarihi:</BoldText> {dateOfBirth}</div>
+            <div><BoldText>Kan Grubu:</BoldText> {bloodGroup}</div>
+            <div><BoldText>Cinsiyeti:</BoldText> {gender}</div>
+            <div><BoldText>Uyruk:</BoldText> {nationality}</div>
+            <div><BoldText>Alerjiler:</BoldText></div>
+            <ul style={{paddingLeft:"40px"}}>
+                {allergies && Object.keys(allergies).map((item,index)=>(
+                <li key={index}>
+                    {`${item}: ${allergies[item]}`}
+                </li>
+                ))}
+            </ul>
         </RightColumn>
     </Container>
   )
