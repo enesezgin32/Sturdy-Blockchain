@@ -1,10 +1,9 @@
 const EthCrypto = require("eth-crypto");
 
 async function getpatientJSON(encrypted, patientPrivateKey) {
-    const parsedString = EthCrypto.cipher.parse(encrypted);
     const decrypted = await EthCrypto.decryptWithPrivateKey(
         patientPrivateKey, // privateKey
-        EthCrypto.cipher.parse(parsedString) // encrypted-data
+        EthCrypto.cipher.parse(encrypted) // encrypted-data
     );
 
     return decrypted;
@@ -19,4 +18,9 @@ async function encryptDiagnose(diagnoseJSON, patientPublicKey) {
     return encryptedString;
 }
 
-module.exports = { getpatientJSON, encryptDiagnose };
+function getPublicKey(patientPrivateKey) {
+    const publicKey = EthCrypto.publicKeyByPrivateKey(patientPrivateKey);
+    return publicKey;
+}
+
+module.exports = { getpatientJSON, encryptDiagnose, getPublicKey };
