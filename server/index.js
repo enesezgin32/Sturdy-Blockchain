@@ -121,8 +121,8 @@ app.post("/api/citizen/getFullInfo", async (req, res) => {
         let diagnoses = await contractFunc.getFullDiagnosesSelf(
             contract_patient
         );
-        let diagnosesJSON;
-        for (let i = 0; i < diagnoses.length; i++) {
+        let diagnosesJSON = [];
+        for (let i = 3; i < diagnoses.length; i++) {
             let patientJSON = await selfMadeCrypto.getpatientJSON(
                 diagnoses[i],
                 patientPriv
