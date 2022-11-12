@@ -12,7 +12,7 @@ const httpProvider_Avax = "https://api.avax-test.network/ext/bc/C/rpc";
 const provider = new ethers.providers.JsonRpcProvider(httpProvider_Avax);
 const abi = contractFunc.abi;
 
-const contractAddress = "0xFd701C74999aAC75f2E816F1E84c7Fe19ab38816";
+const contractAddress = "0x69d06eb87b9939AACE8a49b505D2a0F5262D38c5";
 const citizenExample = {
     id: "10154859744",
     name: "Kadircan",
@@ -116,7 +116,7 @@ app.post("/api/citizen/getFullInfo", async (req, res) => {
     }
     if (citizen.password === input.password) {
         // CODE: get citizen full information
-        
+
         const contract_patient = new ethers.Contract(
             contractAddress,
             abi,

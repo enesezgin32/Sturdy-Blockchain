@@ -90,6 +90,24 @@ const abi = [
         type: "function",
     },
     {
+        inputs: [
+            {
+                internalType: "uint256",
+                name: "index",
+                type: "uint256",
+            },
+            {
+                internalType: "bool",
+                name: "_isHided",
+                type: "bool",
+            },
+        ],
+        name: "hideOrShowDiagnose",
+        outputs: [],
+        stateMutability: "nonpayable",
+        type: "function",
+    },
+    {
         inputs: [],
         stateMutability: "payable",
         type: "constructor",
@@ -102,25 +120,6 @@ const abi = [
                 internalType: "uint64",
                 name: "",
                 type: "uint64",
-            },
-        ],
-        stateMutability: "view",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "address",
-                name: "patientAddress",
-                type: "address",
-            },
-        ],
-        name: "getBasicInfo",
-        outputs: [
-            {
-                internalType: "string",
-                name: "",
-                type: "string",
             },
         ],
         stateMutability: "view",
@@ -200,7 +199,7 @@ const abi = [
 
 const httpProvider_Avax = "https://api.avax-test.network/ext/bc/C/rpc";
 
-const contractAddress = "0xFd701C74999aAC75f2E816F1E84c7Fe19ab38816";
+const contractAddress = "0x69d06eb87b9939AACE8a49b505D2a0F5262D38c5";
 
 //system
 
@@ -257,6 +256,12 @@ async function getFullDiagnosesSelf(Contract) {
     return response;
 }
 
+async function changePermission(Contract, permission) {
+    let response = await Contract["hideOrShowDiagnose"](permission);
+
+    const transactionReceipt = await response.wait(1);
+}
+
 module.exports = {
     isAdmin,
     isDoctor,
@@ -267,5 +272,7 @@ module.exports = {
     addDiagnose,
     getFullDiagnosesDoctor,
     getFullDiagnosesSelf,
+    getBasicInfo,
     abi,
+    changePermission,
 };

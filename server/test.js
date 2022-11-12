@@ -3,7 +3,7 @@ const crypto = require("./cryption.js");
 const { ethers } = require("ethers");
 
 httpProvider_Avax = "https://api.avax-test.network/ext/bc/C/rpc";
-contractAddress = "0xFd701C74999aAC75f2E816F1E84c7Fe19ab38816";
+contractAddress = "0x69d06eb87b9939AACE8a49b505D2a0F5262D38c5";
 adminPriv = "260210835d9bad02621e07ecdda7335f4b93cc8302cd7c77a876b18b56ed6913";
 doctorPriv = "f7bc15ca9d4503fa61f7ef3ac094d4e6a3f1ad83855a3f1b481adb9649c5b88c";
 patientPriv =
@@ -59,7 +59,7 @@ async function test() {
         patientWallet.address
     );
 
-    for (let i = 3; i < diagnoses.length; i++) {
+    for (let i = 0; i < diagnoses.length; i++) {
         let patientJSON = await crypto.getpatientJSON(
             diagnoses[i],
             patientPriv
