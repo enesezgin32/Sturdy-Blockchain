@@ -15,7 +15,7 @@ const NavbarWrapper = styled.div`
     justify-content: flex-start;
     align-items: center;
     padding-left: 40px;
-    background: #9BA3EB;
+    background: #1976d2;
 `
 function Navbar() {
   return (

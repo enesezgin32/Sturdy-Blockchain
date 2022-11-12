@@ -1,6 +1,7 @@
 const crypto = require('crypto-js');
 const joi = require('joi');
 const express = require('express');
+const cors = require('cors');
 //const contract = require('./contractFunctions.js');
 const { application, json } = require('express');
 
@@ -37,6 +38,9 @@ const authInfo = [
     }
 ]
 app.use(express.json());
+app.use(cors({
+    origin: '*'
+}));
 app.get('/api', (req, res) => {
     res.send(ciphertext);
 });

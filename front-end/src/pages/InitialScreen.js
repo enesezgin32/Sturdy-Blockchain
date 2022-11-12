@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import LoginSelector from './LoginSelector'
 import styled from 'styled-components';
 import HastaLogin from '../components/HastaLogin';
+import HastaQR from '../components/HastaQR';
+import DoktorLogin from '../components/DoktorLogin';
 
 const LoginWrapper = styled.div`
   width: 50%;
@@ -16,10 +18,13 @@ const LoginWrapper = styled.div`
 
 const TempWrapperHasta = styled.div`
     width: 100%;
-    height: 100%;
+    height: 80%;
     transform: ${props=>props.authType==="Hasta"?"":"translateX(-100%)"};
     transition: all 0.5s ease-in-out;
-    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
 `
 
 const TempWrapperDoktor = styled.div`
@@ -27,6 +32,10 @@ const TempWrapperDoktor = styled.div`
     height: 100%;
     transform: ${props=>props.authType==="Doktor"?"translateX(-100%)":""};
     transition: all 0.5s ease-in-out;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
 `
 
 const LoginFormContainer = styled.div`
@@ -36,7 +45,8 @@ const LoginFormContainer = styled.div`
     flex-direction: row;
 `
 
-function InitialScreen() {
+function InitialScreen(props) {
+    const {setGeneralInfoHasta} = props;
     const [authType,setAuthType] = useState("Hasta")
 
     const setterFunction = (arg)=>{
@@ -49,11 +59,12 @@ function InitialScreen() {
             
             <LoginFormContainer>
                 <TempWrapperHasta authType={authType}>
-                hasta giriş ekranı
-                    <HastaLogin></HastaLogin>
+                    <HastaQR/>
+                    <HastaLogin setGeneralInfoHasta={setGeneralInfoHasta}/>
                 </TempWrapperHasta>
                 <TempWrapperDoktor authType={authType}>
-                doktor giriş ekranı
+                    <HastaQR isDoctor={true}/>
+                    <DoktorLogin/>
                 </TempWrapperDoktor>
             </LoginFormContainer>
         </LoginWrapper>
