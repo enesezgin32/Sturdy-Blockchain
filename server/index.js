@@ -24,6 +24,14 @@ const citizenExample = {
         }
         
     };
+const doctorExample = 
+{
+    id: "10154859744",
+    name: "Kadircan",
+    surname: "Bozkurt",
+    speciality: "Cardiologist",
+    hospital: "Istanbul University"
+}
 const authInfo = [
     {
         id: "10154859744",
@@ -43,9 +51,7 @@ const authInfo = [
 ]
 
 app.use(express.json());
-app.use(cors({
-    origin: '*'
-}));
+app.use(cors({origin: '*'}));
 
 app.get('/api', (req, res) => {
     res.send(ciphertext);
@@ -97,6 +103,40 @@ app.post('/api/citizen/getFullInfo', (req, res) => {
     if(citizen.password === input.password)
         // CODE: get citizen full information 
         res.send(citizenExample);
+    else
+        res.status(400).send("Wrong password");
+    return;
+    
+});
+
+app.post('/api/doctorLogin', (req, res) => {
+    if (req.body == null) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+    const input = JSON.parse(JSON.stringify(req.body));
+
+    const decrypted = crypto.AES.decrypt(input.qr, masterKey).toString(crypto.enc.Utf8);
+
+    const citizenTC = "x"; // CODE: get citizen TC from blockchain and get tc
+    const citizen = authInfo.find(c => c.id === citizenTC);
+    
+    if(citizen.password === input.password)
+    {
+        const isDoctor = true;// CODE : get if doctor
+        if(isDoctor)
+        {
+            //CODE: get doctor info
+            res.send(doctorExample)
+            return;
+        }
+        else
+        {
+            res.status(400).send("Not a doctor");
+            return;
+        }
+    }
+        
     else
         res.status(400).send("Wrong password");
     return;
