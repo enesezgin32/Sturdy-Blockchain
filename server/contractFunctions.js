@@ -3,6 +3,11 @@ const { ethers } = require("ethers");
 const abi = [
     {
         inputs: [],
+        stateMutability: "payable",
+        type: "constructor",
+    },
+    {
+        inputs: [],
         name: "AccessDenied",
         type: "error",
     },
@@ -64,6 +69,19 @@ const abi = [
         type: "function",
     },
     {
+        inputs: [],
+        name: "citizienCount",
+        outputs: [
+            {
+                internalType: "uint64",
+                name: "",
+                type: "uint64",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
         inputs: [
             {
                 internalType: "address",
@@ -87,42 +105,6 @@ const abi = [
         name: "dismissDoctor",
         outputs: [],
         stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [
-            {
-                internalType: "uint256",
-                name: "index",
-                type: "uint256",
-            },
-            {
-                internalType: "bool",
-                name: "_isHided",
-                type: "bool",
-            },
-        ],
-        name: "hideOrShowDiagnose",
-        outputs: [],
-        stateMutability: "nonpayable",
-        type: "function",
-    },
-    {
-        inputs: [],
-        stateMutability: "payable",
-        type: "constructor",
-    },
-    {
-        inputs: [],
-        name: "citizienCount",
-        outputs: [
-            {
-                internalType: "uint64",
-                name: "",
-                type: "uint64",
-            },
-        ],
-        stateMutability: "view",
         type: "function",
     },
     {
@@ -168,6 +150,24 @@ const abi = [
             },
         ],
         stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [
+            {
+                internalType: "uint256",
+                name: "index",
+                type: "uint256",
+            },
+            {
+                internalType: "bool",
+                name: "_isHided",
+                type: "bool",
+            },
+        ],
+        name: "hideOrShowDiagnose",
+        outputs: [],
+        stateMutability: "nonpayable",
         type: "function",
     },
     {
