@@ -16,13 +16,23 @@ const Header = styled.div`
     font-weight: 500;
 `
 
+const StyledImage = styled.img`
+  cursor: pointer;
+`
+
 function HastaQR(props) {
     const {isDoctor} = props;
+
+    const handleClick = (e) => {
+      e.preventDefault();
+
+      
+    }
 
   return (
     <Container>
         <Header>{!isDoctor ? "QR ile kolay giriş" : "Önce QR okutunuz" }</Header> 
-        <button>Kamerayı aç</button>
+        <StyledImage onClick={handleClick} height='30px' width='auto' alt='camera-img' src='https://cdn-icons-png.flaticon.com/128/1067/1067297.png'/>
     </Container>
   )
 }
