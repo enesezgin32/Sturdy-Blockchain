@@ -10,7 +10,7 @@ contract sturdy {
     uint64 public citizienCount;
     mapping(address => string) private citiziens;
     mapping(address => string[]) private diagnoses;
-    mapping(address => bool) private isHided;
+    mapping(address => bool[]) private isHided;
 
     //admins
     mapping(address => bool) public isAdmin;
@@ -52,6 +52,13 @@ contract sturdy {
 
     //admin functions
     // move eklenecek
+    function registerCitizien(address personAddress, string memory info)
+        public
+        onlyAdmin
+    {
+        citiziens[personAddress] = info;
+    }
+
     function assignAdmin(address personAddress) public onlyAdmin {
         isAdmin[personAddress] = true;
     }
@@ -87,6 +94,7 @@ contract sturdy {
     }
 
     // citizien functions
+    // hider eklenecek
     function getSelfDiagnoses() public view returns (string[] memory) {
         return diagnoses[msg.sender];
     }
