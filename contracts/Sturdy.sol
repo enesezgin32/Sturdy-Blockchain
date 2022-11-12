@@ -42,4 +42,27 @@ contract sturdy {
             revert AccessDenied();
         }
     }
+
+    function checkDoctor() internal view {
+        if (!isDoctor[msg.sender]) {
+            revert AccessDenied();
+        }
+    }
+
+    //admin functions
+    function assignAdmin(address personAddress) public onlyAdmin {
+        isAdmin[personAddress] = true;
+    }
+
+    function dismissAdmin(address personAddress) public onlyAdmin {
+        isAdmin[personAddress] = false;
+    }
+
+    function assignDoctor(address personAddress) public onlyAdmin {
+        isDoctor[personAddress] = true;
+    }
+
+    function dismissDoctor(address personAddress) public onlyAdmin {
+        isDoctor[personAddress] = false;
+    }
 }
