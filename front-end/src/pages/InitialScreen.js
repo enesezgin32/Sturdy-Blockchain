@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import LoginSelector from './LoginSelector'
 import styled from 'styled-components';
+import HastaLogin from '../components/HastaLogin';
 
 const LoginWrapper = styled.div`
   width: 50%;
@@ -49,6 +50,7 @@ function InitialScreen() {
             <LoginFormContainer>
                 <TempWrapperHasta authType={authType}>
                 hasta giriş ekranı
+                    <HastaLogin></HastaLogin>
                 </TempWrapperHasta>
                 <TempWrapperDoktor authType={authType}>
                 doktor giriş ekranı
