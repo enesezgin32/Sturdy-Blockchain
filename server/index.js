@@ -12,6 +12,7 @@ const httpProvider_Avax = "https://api.avax-test.network/ext/bc/C/rpc";
 const provider = new ethers.providers.JsonRpcProvider(httpProvider_Avax);
 const abi = contractFunc.abi;
 
+const contractAddress = "0xFd701C74999aAC75f2E816F1E84c7Fe19ab38816";
 const citizenExample = {
     id: "10154859744",
     name: "Kadircan",
@@ -43,21 +44,21 @@ const authInfo = [
     {
         id: "10154859744",
         password: "123456",
-        publicKey: "0x1234567890",
+        address: "0x1234567890",
     },
     {
         id: "10154859744",
         password: "123456",
-        publicKey: "0x1234567890",
+        address: "0x1234567890",
     },
     {
         id: "x",
         password: "y",
-        publicKey: "0x1234567890",
+        address: "0x4fBB8d4fCFb0C9785eBBf83536ddd32f36AB6083",
     },
 ];
 const ciphertext = crypto.AES.encrypt(
-    JSON.stringify(diagnoseExample),
+    "2c5a52e5fc79e49c9784d7b7952ae79302ba0e9d93b97cbfbc6725f56b12647b",
     masterKey
 ).toString();
 
@@ -106,13 +107,16 @@ app.post("/api/citizen/getFullInfo", async (req, res) => {
     const patientPriv = crypto.AES.decrypt(input.qr, masterKey).toString(
         crypto.enc.Utf8
     );
-
-    const citizenTC = "x"; // CODE: get citizen from blockchain and get tc
-    const citizen = authInfo.find((c) => c.id === citizenTC);
-
+    const patientWallet = new ethers.Wallet(patientPriv, provider);
+    const patientAddress = patientWallet.address;
+    const citizen = authInfo.find((c) => c.address === patientAddress);
+    if (!citizen) {
+        res.status(400).send("No citizen found");
+        return;
+    }
     if (citizen.password === input.password) {
         // CODE: get citizen full information
-        const patientWallet = new ethers.Wallet(patientPriv, provider);
+        
         const contract_patient = new ethers.Contract(
             contractAddress,
             abi,
@@ -127,7 +131,7 @@ app.post("/api/citizen/getFullInfo", async (req, res) => {
                 diagnoses[i],
                 patientPriv
             );
-            diagnosesJSON.push(patientJSON);
+            diagnosesJSON.push(JSON.parse(patientJSON));
         }
         // SELF: decrypt diagnose
         res.send(diagnosesJSON);
