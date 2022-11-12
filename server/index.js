@@ -1,8 +1,7 @@
 const crypto = require('crypto-js');
 const express = require('express');
 const cors = require('cors');
-//const contract = require('./contractFunctions.js');
-const { application, json } = require('express');
+const contract = require('./contractFunctions.js');
 
 const app = express();
 
@@ -15,7 +14,7 @@ const citizenExample = {
         name: "Kadircan",
         surname: "Bozkurt",
         dateOfBirth: "23.12.2000",
-        gender: "Male",
+        gender: "Erkek",
         nationality: "TR",
         bloodGroup: "Brh+",
         allergies:{
@@ -42,10 +41,12 @@ const authInfo = [
         publicKey: "0x1234567890",
     }
 ]
+
 app.use(express.json());
 app.use(cors({
     origin: '*'
 }));
+
 app.get('/api', (req, res) => {
     res.send(ciphertext);
 });
@@ -100,13 +101,6 @@ app.post('/api/citizen/getFullInfo', (req, res) => {
         res.status(400).send("Wrong password");
     return;
     
-});
-
-app.post('/api/citizen/', (req, res) => {
-    console.log(req.body.name);
-    const encrypted = crypto.AES.decrypt(req.body.name, masterKey).toString(crypto.enc.Utf8);
-    //const json = contract.getCitizenGeneralInformation(encrypted);
-    res.send(json);
 });
 
 const PORT = 5000;
