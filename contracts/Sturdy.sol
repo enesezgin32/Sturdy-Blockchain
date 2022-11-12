@@ -89,6 +89,10 @@ contract sturdy {
         isHided[msg.sender][index] = _isHided;
     }
 
+    function getPermission() public view returns (bool[] memory) {
+        return isHided[msg.sender];
+    }
+
     function getSelfDiagnoses() public view returns (string[] memory) {
         return diagnoses[msg.sender];
     }
