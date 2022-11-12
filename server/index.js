@@ -117,7 +117,8 @@ app.post("/api/citizen/getBasicInfo", (req, res) => {
         const citizenInfo = citizens.find((c) => c.id === citizen.id);
         res.send(citizenInfo);
         return;
-    } else if (input.tc != null) {
+    } 
+    else if (input.tc != null) {
         const citizen = authInfo.find((c) => c.id === input.tc);
         if (!citizen) {
             res.status(400).send("No citizen found");
