@@ -202,23 +202,23 @@ const contractAddress = "0xFd701C74999aAC75f2E816F1E84c7Fe19ab38816";
 
 //system
 
-function isAdmin(adminWallet) {}
+function isAdmin(Contract, adminWallet) {}
 
-function isDoctor(doctorWallet) {}
+function isDoctor(Contract, doctorWallet) {}
 
 // admin
-function assignAdmin(adminWallet, newAdminAddress) {}
+function assignAdmin(Contract, adminWallet, newAdminAddress) {}
 
-function dismissAdmin(adminWallet, adminAddress) {}
+function dismissAdmin(Contract, adminWallet, adminAddress) {}
 
-function assignDoctor(adminWallet, newDoctorAddress) {}
+function assignDoctor(Contract, adminWallet, newDoctorAddress) {}
 
-function dismissDoctor(adminWallet, doctorAddress) {}
+function dismissDoctor(Contract, adminWallet, doctorAddress) {}
 
 // doctor
 
-function addDiagnose(doctorWallet, patientAddress, diagnose) {}
+function addDiagnose(Contract, doctorWallet, patientAddress, diagnose) {}
 
-function getFullDiagnoses(patientWallet) {}
+function getFullDiagnoses(Contract, patientWallet) {}
 
-function getBasicInfo(patientAddress) {}
+function getBasicInfo(Contract, patientAddress) {}
