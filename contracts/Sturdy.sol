@@ -8,7 +8,7 @@ error PersonNotExist();
 contract sturdy {
     //citiziens
     uint64 public citizienCount;
-    mapping(address => string) private citiziens;
+    //mapping(address => string) private citiziens;
     mapping(address => string[]) private diagnoses;
     mapping(address => bool[]) private isHided;
 

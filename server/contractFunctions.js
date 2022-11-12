@@ -216,25 +216,25 @@ async function isDoctor(Contract, doctorAddress) {
 
 // admin
 async function assignAdmin(Contract, newAdminAddress) {
-    let response = Contract["assignAdmin"](newAdminAddress);
+    let response = await Contract["assignAdmin"](newAdminAddress);
 
     const transactionReceipt = await response.wait(1);
 }
 
 async function dismissAdmin(Contract, adminAddress) {
-    let response = Contract["dismissAdmin"](adminAddress);
+    let response = await Contract["dismissAdmin"](adminAddress);
 
     const transactionReceipt = await response.wait(1);
 }
 
 async function assignDoctor(Contract, newDoctorAddress) {
-    let response = Contract["assignDoctor"](newDoctorAddress);
+    let response = await Contract["assignDoctor"](newDoctorAddress);
 
     const transactionReceipt = await response.wait(1);
 }
 
 async function dismissDoctor(Contract, doctorAddress) {
-    let response = Contract["dismissDoctor"](doctorAddress);
+    let response = await Contract["dismissDoctor"](doctorAddress);
 
     const transactionReceipt = await response.wait(1);
 }
@@ -242,16 +242,20 @@ async function dismissDoctor(Contract, doctorAddress) {
 // doctor
 
 async function addDiagnose(Contract, patientAddress, diagnose) {
-    let response = Contract["addDiagnose"](patientAddress, diagnose);
+    let response = await Contract["addDiagnose"](patientAddress, diagnose);
 
     const transactionReceipt = await response.wait(1);
 }
 
-async function getFullDiagnosesDoctor(Contract, patientWallet) {}
+async function getFullDiagnosesDoctor(Contract, patientAddress) {
+    let response = await Contract["getPatientDiagnoses"](patientAddress);
+    return response;
+}
 
-async function getFullDiagnosesSelf(Contract, patientWallet) {}
-
-async function getBasicInfo(Contract, patientAddress) {}
+async function getFullDiagnosesSelf(Contract) {
+    let response = await Contract["getSelfDiagnoses"]();
+    return response;
+}
 
 module.exports = {
     isAdmin,
@@ -264,4 +268,5 @@ module.exports = {
     getFullDiagnosesDoctor,
     getFullDiagnosesSelf,
     getBasicInfo,
+    abi,
 };

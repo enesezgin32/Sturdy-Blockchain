@@ -9,6 +9,7 @@ doctorPriv = "f7bc15ca9d4503fa61f7ef3ac094d4e6a3f1ad83855a3f1b481adb9649c5b88c";
 patientPriv =
     "2c5a52e5fc79e49c9784d7b7952ae79302ba0e9d93b97cbfbc6725f56b12647b";
 async function test() {
+    const abi = contractFunc.abi;
     const provider = new ethers.providers.JsonRpcProvider(httpProvider_Avax);
     const adminWallet = new ethers.Wallet(adminPriv, provider);
     const doctorWallet = new ethers.Wallet(doctorPriv, provider);
@@ -40,8 +41,33 @@ async function test() {
         diagnose: "Enes has a cold",
         drug: "Paracetamol",
         date: "23.12.2020",
-        doctor: "Dr. Ozan Bozkurt",
+        doctor: "Dr. Enes Bozkurt",
     };
+    const patientPublicKey = crypto.getPublicKey(patientPriv);
+    const encryptedDiagnose1 = crypto.encryptDiagnose(
+        diagnose2,
+        patientPublicKey
+    );
+    let response = await contractFunc.addDiagnose(
+        contract_doctor,
+        patientWallet.address,
+        encryptedDiagnose1
+    );
+
+    let diagnoses = await contractFunc.getFullDiagnosesDoctor(
+        contract_doctor,
+        patientWallet.address
+    );
+
+    for (let i = 3; i < diagnoses.length; i++) {
+        let patientJSON = await crypto.getpatientJSON(
+            diagnoses[i],
+            patientPriv
+        );
+        console.log(JSON.parse(patientJSON));
+    }
+
+    console.log(diagnoses);
 }
 
 test();
