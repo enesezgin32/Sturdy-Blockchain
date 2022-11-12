@@ -51,6 +51,7 @@ contract sturdy {
     }
 
     //admin functions
+    // move eklenecek
     function assignAdmin(address personAddress) public onlyAdmin {
         isAdmin[personAddress] = true;
     }
@@ -90,4 +91,10 @@ contract sturdy {
     }
 
     // mixed functions
+    function getBasicInfo(address patientAddress)
+        public
+        returns (string memory)
+    {
+        return citizien[patientAddress];
+    }
 }
