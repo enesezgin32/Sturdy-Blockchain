@@ -17,7 +17,13 @@ const citizenExample = {
         dateOfBirth: "23.12.2000",
         gender: "Male",
         nationality: "TR",
-        bloodGroup: "Brh+"
+        bloodGroup: "Brh+",
+        allergies:{
+            drug: "Aspirin",
+            food: "Peanut",
+            other: "None"
+        }
+        
     };
 const authInfo = [
     {
@@ -74,6 +80,7 @@ app.post('/api/citizen/getBasicInfo', (req, res) => {
         return;
     }
 });
+
 app.post('/api/citizen/getFullInfo', (req, res) => {
     if (req.body == null) {
         res.status(400).send("Bad Request");
