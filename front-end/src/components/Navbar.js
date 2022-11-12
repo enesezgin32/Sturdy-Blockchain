@@ -1,6 +1,6 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
-
 
 const NavbarWrapper = styled.div`
     width: 100vw;
@@ -12,14 +12,35 @@ const NavbarWrapper = styled.div`
     left: 0;
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
     padding-left: 40px;
+    padding-right: 40px;
     background: #1976d2;
 `
-function Navbar() {
+
+const ExitButton = styled.div`
+    cursor: pointer;
+    font-size: 25px;
+    color: white;
+
+    &:hover{
+        color: #242F9B;
+    }
+`
+
+function Navbar(props) {
+    const {isLoggedIn, setGeneralInfoHasta} = props;
+    const nav = useNavigate();
+
   return (
-        <NavbarWrapper>LOGO</NavbarWrapper>
+        <NavbarWrapper>
+        <div>LOGO</div>
+        {isLoggedIn && <ExitButton onClick={()=>{
+            setGeneralInfoHasta(null);
+            nav('/');
+        }}>Çıkış Yap</ExitButton>}
+        </NavbarWrapper>
     )
 }
 
