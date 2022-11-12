@@ -274,6 +274,10 @@ async function changePermission(Contract, permission) {
 
     const transactionReceipt = await response.wait(1);
 }
+async function getPermission(Contract) {
+    let response = await Contract["getPermission"]();
+    return response;
+}
 
 module.exports = {
     isAdmin,
@@ -289,4 +293,5 @@ module.exports = {
     abi,
     changePermission,
     contractAddress,
+    getPermission,
 };

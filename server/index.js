@@ -230,7 +230,7 @@ app.post("/api/doctor/login", async (req, res) => {
     return;
 });
 
-app.post("/api/doctor/getFullInfo", (req, res) => {
+app.post("/api/doctor/getFullInfo", async (req, res) => {
     if (req.body == null) {
         res.status(400).send("Bad Request");
         return;
@@ -250,6 +250,39 @@ app.post("/api/doctor/getFullInfo", (req, res) => {
         const citizen = authInfo.find((c) => c.id === citizenTC);
         // CODE: get basic and full information
         // CODE: check permissions
+        // inputs: doctor qr, hasta qr, doctor password
+        doctorPriv =
+            "f7bc15ca9d4503fa61f7ef3ac094d4e6a3f1ad83855a3f1b481adb9649c5b88c";
+        const doctorWallet = new ethers.Wallet(doctorPriv, provider);
+        patientPriv =
+            "2c5a52e5fc79e49c9784d7b7952ae79302ba0e9d93b97cbfbc6725f56b12647b";
+        const patientWallet = new ethers.Wallet(patientPriv, provider);
+        const contract_doctor = new ethers.Contract(
+            contractAddress,
+            abi,
+            doctorWallet
+        );
+        const contract_patient = new ethers.Contract(
+            contractAddress,
+            abi,
+            patientWallet
+        );
+        let diagnoses = await contractFunc.getFullDiagnosesDoctor(
+            contract_doctor,
+            patientWallet.address
+        );
+        let permissions = await contractFunc.getPermission(contract_patient);
+        let diagnosesJSON = [];
+        for (let i = 0; i < diagnoses.length; i++) {
+            let patientJSON = await selfMadeCrypto.getpatientJSON(
+                diagnoses[i],
+                patientPriv
+            );
+            if (!permissions[i]) {
+                diagnosesJSON.push(JSON.parse(patientJSON));
+            }
+        }
+
         // SELF: decrypt diagnose
         res.send(diagnoseExample);
     }
