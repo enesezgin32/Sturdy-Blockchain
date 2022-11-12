@@ -26,7 +26,7 @@ function HastaDetailedInfoQR(props) {
         e.preventDefault();
 
         const sentObject = {
-            qr: "Y",
+            qr: "U2FsdGVkX19DsnGiOqJfuI0aYRLhN2f5ssmHd07WwFMwdEhzfg9j/qaL+XeqKAVIdzUx7VkeCxsWevp/aIgJrg4M8nq3+3DsWJVGfKch2IVkN09lNcjk57siu2W5Lubw",
             password: "y"
         }
 

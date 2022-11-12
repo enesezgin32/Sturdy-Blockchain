@@ -23,10 +23,17 @@ const ExitButton = styled.div`
     cursor: pointer;
     font-size: 25px;
     color: white;
+    transition: all 0.2s ease-in-out;
 
     &:hover{
         color: #242F9B;
     }
+`
+
+const LogoText = styled.div`
+    font-size: 25px;
+    color: white;
+    cursor: default;
 `
 
 function Navbar(props) {
@@ -35,7 +42,7 @@ function Navbar(props) {
 
   return (
         <NavbarWrapper>
-        <div>LOGO</div>
+        <LogoText>LOGO</LogoText>
         {isLoggedIn && <ExitButton onClick={()=>{
             setGeneralInfoHasta(null);
             setDetailedInfo(null);
