@@ -247,6 +247,8 @@ async function addDiagnose(Contract, patientAddress, diagnose) {
     const transactionReceipt = await response.wait(1);
 }
 
-async function getFullDiagnoses(Contract, patientWallet) {}
+async function getFullDiagnosesDoctor(Contract, patientWallet) {}
+
+async function getFullDiagnosesSelf(Contract, patientWallet) {}
 
 async function getBasicInfo(Contract, patientAddress) {}
