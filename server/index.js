@@ -1,7 +1,7 @@
 const crypto = require('crypto-js');
 const joi = require('joi');
 const express = require('express');
-const cFunctions = require('./cFunctions');
+const contract = require('./contractFunctions.js');
 
 const app = express();
 
@@ -28,9 +28,15 @@ const citizen = {
         ]
     };
 
-app.get('/citizenGeneral/:id', (req, res) => {
-    const encrypted = crypto.AES.encrypt(JSON.stringify(citizen), masterKey).toString();
-    const json = cFunctions.getCitizenGeneralInformation(encrypted);
+app.use(express.json());
+app.get('/api', (req, res) => {
+    res.send(ciphertext);
+});
+
+app.post('/api/citizenGeneral/', (req, res) => {
+    console.log(req.body.name);
+    const encrypted = crypto.AES.decrypt(req.body.name, masterKey).toString(crypto.enc.Utf8);
+    const json = contract.getCitizenGeneralInformation(encrypted);
     res.send(json);
 });
 
