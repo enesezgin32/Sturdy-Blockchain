@@ -198,27 +198,55 @@ const abi = [
     },
 ];
 
+const httpProvider_Avax = "https://api.avax-test.network/ext/bc/C/rpc";
+
 const contractAddress = "0xFd701C74999aAC75f2E816F1E84c7Fe19ab38816";
 
 //system
 
-function isAdmin(Contract, adminWallet) {}
+async function isAdmin(Contract, adminAddress) {
+    const res = await Contract["isAdmin"](adminAddress);
+    return res;
+}
 
-function isDoctor(Contract, doctorWallet) {}
+async function isDoctor(Contract, doctorAddress) {
+    const res = await Contract["isADoctor"](doctorAddress);
+    return res;
+}
 
 // admin
-function assignAdmin(Contract, adminWallet, newAdminAddress) {}
+async function assignAdmin(Contract, newAdminAddress) {
+    let response = Contract["assignAdmin"](newAdminAddress);
 
-function dismissAdmin(Contract, adminWallet, adminAddress) {}
+    const transactionReceipt = await response.wait(1);
+}
 
-function assignDoctor(Contract, adminWallet, newDoctorAddress) {}
+async function dismissAdmin(Contract, adminAddress) {
+    let response = Contract["dismissAdmin"](adminAddress);
 
-function dismissDoctor(Contract, adminWallet, doctorAddress) {}
+    const transactionReceipt = await response.wait(1);
+}
+
+async function assignDoctor(Contract, newDoctorAddress) {
+    let response = Contract["assignDoctor"](newDoctorAddress);
+
+    const transactionReceipt = await response.wait(1);
+}
+
+async function dismissDoctor(Contract, doctorAddress) {
+    let response = Contract["dismissDoctor"](doctorAddress);
+
+    const transactionReceipt = await response.wait(1);
+}
 
 // doctor
 
-function addDiagnose(Contract, doctorWallet, patientAddress, diagnose) {}
+async function addDiagnose(Contract, patientAddress, diagnose) {
+    let response = Contract["addDiagnose"](patientAddress, diagnose);
 
-function getFullDiagnoses(Contract, patientWallet) {}
+    const transactionReceipt = await response.wait(1);
+}
 
-function getBasicInfo(Contract, patientAddress) {}
+async function getFullDiagnoses(Contract, patientWallet) {}
+
+async function getBasicInfo(Contract, patientAddress) {}
