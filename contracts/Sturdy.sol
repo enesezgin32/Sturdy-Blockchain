@@ -79,22 +79,24 @@ contract sturdy {
 
     function getPatientDiagnoses(address patientAddress)
         public
+        view
         onlyDoctor
-        returns ()
+        returns (string[] memory)
     {
         return diagnoses[patientAddress];
     }
 
     // citizien functions
-    function getSelfDiagnoses() public returns (string[] memory) {
+    function getSelfDiagnoses() public view returns (string[] memory) {
         return diagnoses[msg.sender];
     }
 
     // mixed functions
     function getBasicInfo(address patientAddress)
         public
+        view
         returns (string memory)
     {
-        return citizien[patientAddress];
+        return citiziens[patientAddress];
     }
 }
