@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 const RightColumn = styled.div`
@@ -29,11 +30,41 @@ const BoldText = styled.div`
 `
 
 function InfoCard(props) {
-    const {
-        generalInfoHasta:{bloodGroup,dateOfBirth,gender,name,nationality,surname,allergies}
-    } = props;
+    const generalInfo = useSelector(state=>state.generalInfo);
+    console.log("AAAAAAAAAAAAAAAAAAAAAA:",generalInfo)
+    const temp = {bloodGroup:null,dateOfBirth: null,nationality: null,surname:null,allergies:null,gender:null,name:null};
+    const {bloodGroup,dateOfBirth,gender,name,nationality,surname,allergies} = generalInfo|| temp;
+    
+    useEffect(()=>{
+        console.log("generalInfo:",generalInfo)
+    },[generalInfo])
+
   return (
-    <Container>
+    generalInfo!==null ? <Container>
+        <img height="400px" width="auto" src="https://www.nicepng.com/png/detail/73-730154_open-default-profile-picture-png.png" alt="default-pp"/>
+        <RightColumn>
+            <div style={{fontWeight:"800"}}>{`${name} ${surname}`}</div>
+            <div><BoldText>Doğum tarihi:</BoldText> {dateOfBirth}</div>
+            <div><BoldText>Kan Grubu:</BoldText> {bloodGroup}</div>
+            <div><BoldText>Cinsiyeti:</BoldText> {gender}</div>
+            <div><BoldText>Uyruk:</BoldText> {nationality}</div>
+            <div><BoldText>Alerjiler:</BoldText></div>
+            <ul style={{paddingLeft:"40px"}}>
+                {allergies && Object.keys(allergies).map((item,index)=>(
+                <li key={index}>
+                    {`${item}: ${allergies[item]}`}
+                </li>
+                ))}
+            </ul>
+        </RightColumn>
+    </Container>: <div/>
+  )
+}
+
+export default InfoCard
+
+/**
+ * <Container>
         <img height="400px" width="auto" src="https://www.nicepng.com/png/detail/73-730154_open-default-profile-picture-png.png" alt="default-pp"/>
         <RightColumn>
             <div style={{fontWeight:"800"}}>{`${name} ${surname}`}</div>
@@ -51,7 +82,4 @@ function InfoCard(props) {
             </ul>
         </RightColumn>
     </Container>
-  )
-}
-
-export default InfoCard
+ */
