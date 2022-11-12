@@ -12,21 +12,53 @@ const httpProvider_Avax = "https://api.avax-test.network/ext/bc/C/rpc";
 const provider = new ethers.providers.JsonRpcProvider(httpProvider_Avax);
 const abi = contractFunc.abi;
 
-const contractAddress = "0x69d06eb87b9939AACE8a49b505D2a0F5262D38c5";
-const citizenExample = {
-    id: "10154859744",
-    name: "Kadircan",
-    surname: "Bozkurt",
-    dateOfBirth: "23.12.2000",
-    gender: "Erkek",
-    nationality: "TR",
-    bloodGroup: "Brh+",
-    allergies: {
-        drug: "Aspirin",
-        food: "Peanut",
-        other: "None",
+const contractAddress = "0xFd701C74999aAC75f2E816F1E84c7Fe19ab38816";
+const citizens = [
+    {
+        id: "10154859744",
+        name: "Kadircan",
+        surname: "Bozkurt",
+        dateOfBirth: "23.12.2000",
+        gender: "Erkek",
+        nationality: "TR",
+        bloodGroup: "Brh+",
+        allergies: {
+            drug: "Aspirin",
+            food: "Peanut",
+            other: "None",
+        }
     },
-};
+    {
+        id: "x",
+        name: "Kadircan",
+        surname: "Bozkurt",
+        dateOfBirth: "23.12.2000",
+        gender: "Erkek",
+        nationality: "TR",
+        bloodGroup: "Brh+",
+        allergies: {
+            drug: "Aspirin",
+            food: "Peanut",
+            other: "None"
+        }
+    },
+];
+const doctors = [
+    {
+        id: "10154859744",
+        name: "Kadircan",
+        surname: "Bozkurt",
+        speciality: "Cardiologist",
+        hospital: "Istanbul University",
+    },
+    {
+        id: "10154859744",
+        name: "Kadircan",
+        surname: "Bozkurt",
+        speciality: "Cardiologist",
+        hospital: "Istanbul University",
+    }
+];
 const diagnoseExample = {
     diagnose: "Kadircan has a cold",
     drug: "Paracetamol",
@@ -79,10 +111,14 @@ app.post("/api/citizen/getBasicInfo", (req, res) => {
         const decrypted = crypto.AES.decrypt(input.qr, masterKey).toString(
             crypto.enc.Utf8
         );
-        // CODE : get citizen information
-        res.send(citizenExample);
+        const patientWallet = new ethers.Wallet(decrypted, provider);
+        const patientAddress = patientWallet.address;
+        const citizen = authInfo.find((c) => c.address === patientAddress);
+        const citizenInfo = citizens.find((c) => c.id === citizen.id);
+        res.send(citizenInfo);
         return;
-    } else if (input.tc != null) {
+    } 
+    else if (input.tc != null) {
         console.log(input.tc);
         const citizen = authInfo.find((c) => c.id === input.tc);
         if (!citizen) {
@@ -115,8 +151,6 @@ app.post("/api/citizen/getFullInfo", async (req, res) => {
         return;
     }
     if (citizen.password === input.password) {
-        // CODE: get citizen full information
-
         const contract_patient = new ethers.Contract(
             contractAddress,
             abi,
@@ -133,7 +167,6 @@ app.post("/api/citizen/getFullInfo", async (req, res) => {
             );
             diagnosesJSON.push(JSON.parse(patientJSON));
         }
-        // SELF: decrypt diagnose
         res.send(diagnosesJSON);
     } else res.status(400).send("Wrong password");
     return;
@@ -146,19 +179,15 @@ app.post("/api/citizen/changePermission", (req, res) => {
     }
     const input = JSON.parse(JSON.stringify(req.body));
 
-    const decrypted = crypto.AES.decrypt(input.qr, masterKey).toString(
+    const patientPriv = crypto.AES.decrypt(input.qr, masterKey).toString(
         crypto.enc.Utf8
     );
-
-    const citizenTC = "x"; // CODE: get citizen from blockchain and get tc
-    const citizen = authInfo.find((c) => c.id === citizenTC);
-
-    if (citizen.password === input.password)
-        // CODE: get citizen full information
-        // SELF: decrypt diagnose
-        res.send(diagnoseExample);
-    else res.status(400).send("Wrong password");
-    return;
+    const contract_patient = new ethers.Contract(
+        contractAddress,
+        abi,
+        patientWallet
+    );
+    contractFunc.changePermission(contract_patient, input.index, input.permission);
 });
 
 app.post("/api/doctor/login", (req, res) => {
@@ -168,18 +197,24 @@ app.post("/api/doctor/login", (req, res) => {
     }
     const input = JSON.parse(JSON.stringify(req.body));
 
-    const decrypted = crypto.AES.decrypt(input.qr, masterKey).toString(
+    const doctorPriv = crypto.AES.decrypt(input.qr, masterKey).toString(
         crypto.enc.Utf8
     );
+    const doctorWallet = new ethers.Wallet(doctorPriv, provider);
+    const doctorAddress = doctorWallet.address;
+    
+    const doctorAuth = authInfo.find((c) => c.address === doctorAddress);
 
-    const citizenTC = "x"; // CODE: get citizen TC from blockchain and get tc
-    const citizen = authInfo.find((c) => c.id === citizenTC);
-
-    if (citizen.password === input.password) {
-        const isDoctor = true; // CODE : get if doctor
+    if (doctorAuth.password === input.password) {
+        const contract_doctor = new ethers.Contract(
+            contractAddress,
+            abi,
+            doctorWallet
+        );
+        const isDoctor = await contractFunc.isDoctor(contract_doctor, doctorAddress);
         if (isDoctor) {
-            //CODE: get doctor info
-            res.send(doctorExample);
+            const doctorInfo = doctors.find((c) => c.id === doctorAuth.id);
+            res.send(doctorInfo);
             return;
         } else {
             res.status(400).send("Not a doctor");
