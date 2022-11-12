@@ -10,13 +10,12 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar></Navbar>
+    <BrowserRouter>
+          <Navbar isLoggedIn={generalInfoHasta} setGeneralInfoHasta={setGeneralInfoHasta}></Navbar>
+          <Routes>
 
-      <BrowserRouter>
-            <Routes>
               <Route exact path="/" element={<InitialScreen setGeneralInfoHasta={setGeneralInfoHasta}/>}></Route>
               <Route exact path="/genel-bilgiler" element={<HastaGenelBilgileri generalInfoHasta={generalInfoHasta} />}></Route>
-              
             </Routes>
       </BrowserRouter>
 

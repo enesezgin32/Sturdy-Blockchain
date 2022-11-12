@@ -1,29 +1,32 @@
 const crypto = require('crypto-js');
 const express = require('express');
 const cors = require('cors');
-const contract = require('./contractFunctions.js');
 
 const app = express();
 
 const masterKey = 'getSturdyEyEyEy';
 
-const ciphertext = crypto.AES.encrypt('my message', masterKey).toString();
-
 const citizenExample = {
-        id: "10154859744",
-        name: "Kadircan",
-        surname: "Bozkurt",
-        dateOfBirth: "23.12.2000",
-        gender: "Erkek",
-        nationality: "TR",
-        bloodGroup: "Brh+",
-        allergies:{
-            drug: "Aspirin",
-            food: "Peanut",
-            other: "None"
-        }
-        
-    };
+    id: "10154859744",
+    name: "Kadircan",
+    surname: "Bozkurt",
+    dateOfBirth: "23.12.2000",
+    gender: "Erkek",
+    nationality: "TR",
+    bloodGroup: "Brh+",
+    allergies:{
+        drug: "Aspirin",
+        food: "Peanut",
+        other: "None"
+    }
+    
+};
+const diagnoseExample = {
+    diagnose: "Kadircan has a cold",
+    drug: "Paracetamol",
+    date: "23.12.2020",
+    doctor: "Dr. Kadircan Bozkurt"
+};
 const doctorExample = 
 {
     id: "10154859744",
@@ -49,6 +52,7 @@ const authInfo = [
         publicKey: "0x1234567890",
     }
 ]
+const ciphertext = crypto.AES.encrypt(JSON.stringify(diagnoseExample), masterKey).toString();
 
 app.use(express.json());
 app.use(cors({origin: '*'}));
@@ -97,19 +101,42 @@ app.post('/api/citizen/getFullInfo', (req, res) => {
 
     const decrypted = crypto.AES.decrypt(input.qr, masterKey).toString(crypto.enc.Utf8);
 
-    const citizenTC = "x"; // CODE: get citizen TC from blockchain and get tc
+    const citizenTC = "x"; // CODE: get citizen from blockchain and get tc
     const citizen = authInfo.find(c => c.id === citizenTC);
-    
+
     if(citizen.password === input.password)
         // CODE: get citizen full information 
-        res.send(citizenExample);
+        // SELF: decrypt diagnose
+        res.send(diagnoseExample);
     else
         res.status(400).send("Wrong password");
     return;
     
 });
 
-app.post('/api/doctorLogin', (req, res) => {
+app.post('/api/citizen/changePermission', (req, res) => {
+    if (req.body == null) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+    const input = JSON.parse(JSON.stringify(req.body));
+
+    const decrypted = crypto.AES.decrypt(input.qr, masterKey).toString(crypto.enc.Utf8);
+
+    const citizenTC = "x"; // CODE: get citizen from blockchain and get tc
+    const citizen = authInfo.find(c => c.id === citizenTC);
+
+    if(citizen.password === input.password)
+        // CODE: get citizen full information 
+        // SELF: decrypt diagnose
+        res.send(diagnoseExample);
+    else
+        res.status(400).send("Wrong password");
+    return;
+    
+});
+
+app.post('/api/doctor/login', (req, res) => {
     if (req.body == null) {
         res.status(400).send("Bad Request");
         return;
@@ -139,6 +166,34 @@ app.post('/api/doctorLogin', (req, res) => {
         
     else
         res.status(400).send("Wrong password");
+    return;
+    
+});
+
+app.post('/api/doctor/getFullInfo', (req, res) => {
+    if (req.body == null) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+    const input = JSON.parse(JSON.stringify(req.body));
+
+    if(input.tc != null)
+    {
+        // CODE: get basic and full information
+        // CODE: check permissions
+        // SELF: decrypt diagnose
+        res.send(diagnoseExample);
+    }
+    else if(input.qr != null)
+    {
+        const decrypted = crypto.AES.decrypt(input.qr, masterKey).toString(crypto.enc.Utf8);
+        const citizenTC = "x"; // CODE: get citizen TC from blockchain and get tc
+        const citizen = authInfo.find(c => c.id === citizenTC);
+        // CODE: get basic and full information
+        // CODE: check permissions
+        // SELF: decrypt diagnose
+        res.send(diagnoseExample);
+    }
     return;
     
 });
