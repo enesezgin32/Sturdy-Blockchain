@@ -16,6 +16,7 @@ contract sturdy {
     mapping(address => bool) public isAdmin;
 
     //doctor
+    //json tutacak
     mapping(address => bool) public isDoctor;
 
     constructor() payable {

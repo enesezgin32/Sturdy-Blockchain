@@ -252,3 +252,16 @@ async function getFullDiagnosesDoctor(Contract, patientWallet) {}
 async function getFullDiagnosesSelf(Contract, patientWallet) {}
 
 async function getBasicInfo(Contract, patientAddress) {}
+
+module.exports = {
+    isAdmin,
+    isDoctor,
+    assignAdmin,
+    assignDoctor,
+    dismissAdmin,
+    dismissDoctor,
+    addDiagnose,
+    getFullDiagnosesDoctor,
+    getFullDiagnosesSelf,
+    getBasicInfo,
+};

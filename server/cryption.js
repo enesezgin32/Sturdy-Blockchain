@@ -18,3 +18,5 @@ async function encryptDiagnose(diagnoseJSON, patientPublicKey) {
     const encryptedString = EthCrypto.cipher.stringify(encrypted);
     return encryptedString;
 }
+
+module.exports = { getpatientJSON, encryptDiagnose };
