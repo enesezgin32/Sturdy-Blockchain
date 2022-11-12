@@ -209,7 +209,7 @@ async function isAdmin(Contract, adminAddress) {
 }
 
 async function isDoctor(Contract, doctorAddress) {
-    const res = await Contract["isADoctor"](doctorAddress);
+    const res = await Contract["isDoctor"](doctorAddress);
     return res;
 }
 
