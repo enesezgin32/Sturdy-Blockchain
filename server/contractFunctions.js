@@ -267,6 +267,5 @@ module.exports = {
     addDiagnose,
     getFullDiagnosesDoctor,
     getFullDiagnosesSelf,
-    getBasicInfo,
     abi,
 };
