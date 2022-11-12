@@ -146,6 +146,19 @@ const abi = [
     },
     {
         inputs: [],
+        name: "getPermission",
+        outputs: [
+            {
+                internalType: "bool[]",
+                name: "",
+                type: "bool[]",
+            },
+        ],
+        stateMutability: "view",
+        type: "function",
+    },
+    {
+        inputs: [],
         name: "getSelfDiagnoses",
         outputs: [
             {
@@ -199,7 +212,7 @@ const abi = [
 
 const httpProvider_Avax = "https://api.avax-test.network/ext/bc/C/rpc";
 
-const contractAddress = "0x69d06eb87b9939AACE8a49b505D2a0F5262D38c5";
+const contractAddress = "0x1511b10671f97CEd2D52324Ca3c7229e6bC4a46A";
 
 //system
 
@@ -275,4 +288,5 @@ module.exports = {
     getBasicInfo,
     abi,
     changePermission,
+    contractAddress,
 };
