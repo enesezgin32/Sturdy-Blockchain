@@ -3,6 +3,8 @@ import styled from 'styled-components'
 import InfoCard from '../components/InfoCard';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import HastaQR from '../components/HastaQR';
+import HastaDetailedInfoQR from '../components/HastaDetailedInfoQR';
 
 const Container = styled.div`
     width: 65vw;
@@ -31,7 +33,11 @@ const InfoText = styled.div`
 `
 
 export default function HastaGenelBilgileri(props) {
-    const {generalInfoHasta} = props;
+    const {
+      generalInfoHasta,whichPath,
+      detailedInfo,setDetailedInfo,
+      setPath
+    } = props;
     const [password, setPassword] = useState("")
 
     const handleClick = () => {
@@ -41,13 +47,18 @@ export default function HastaGenelBilgileri(props) {
   return (
     <Container>
       <InfoCard generalInfoHasta={generalInfoHasta}/>
-      <InfoText>Detaylı Hasta Bilgileri için lütfen hasta şifresi giriniz</InfoText>
-      <InputWrapper>
+      <InfoText>{ whichPath===2 ? "Detaylı Hasta Bilgileri için lütfen hasta şifresi giriniz" : "Detaylı Hasta Bilgileri için lütfen QR kodunuzu okutunuz"}</InfoText>
+      {detailedInfo===null && whichPath===2 && <InputWrapper>
         <TextField  style={{width:"100%"}} type='password' value={password} onChange={e=>setPassword(e.target.value)} id="outlined-basic" label="Şifre" variant="outlined" />
         <Button style={{marginLeft:"10px"}} variant="contained" onClick={handleClick}>
         Onayla
         </Button>
-      </InputWrapper>
+      </InputWrapper>}
+      {detailedInfo===null && whichPath===1 && <HastaDetailedInfoQR setPath={setPath} setDetailedInfo={setDetailedInfo}/>}
+      {detailedInfo!==null &&
+        <div>
+          detaylı bilgiler falan filan
+        </div>}
     </Container>
   )
 }

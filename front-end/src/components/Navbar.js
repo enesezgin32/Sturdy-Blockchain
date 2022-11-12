@@ -30,7 +30,7 @@ const ExitButton = styled.div`
 `
 
 function Navbar(props) {
-    const {isLoggedIn, setGeneralInfoHasta} = props;
+    const {isLoggedIn, setGeneralInfoHasta, setDetailedInfo} = props;
     const nav = useNavigate();
 
   return (
@@ -38,6 +38,7 @@ function Navbar(props) {
         <div>LOGO</div>
         {isLoggedIn && <ExitButton onClick={()=>{
             setGeneralInfoHasta(null);
+            setDetailedInfo(null);
             nav('/');
         }}>Çıkış Yap</ExitButton>}
         </NavbarWrapper>

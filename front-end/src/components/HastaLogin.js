@@ -25,7 +25,7 @@ const Header = styled.div`
 
 
 function HastaLogin(props) {
-    const {setGeneralInfoHasta} = props;
+    const {setGeneralInfoHasta, setPath} = props;
     const nav = useNavigate()
     const [tc,setTc] = useState("")
     const [şifre,setŞifre] = useState("")
@@ -57,7 +57,8 @@ function HastaLogin(props) {
                     console.log("RES:",res.data)
                     if (res.data){
                         nav("/genel-bilgiler")
-                        setGeneralInfoHasta(res.data)
+                        setGeneralInfoHasta(res.data);
+                        setPath(1);
                     }
                 })
                 .catch(e=>console.log("catched:",e))
