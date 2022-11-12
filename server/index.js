@@ -1,5 +1,4 @@
 const crypto = require('crypto-js');
-const joi = require('joi');
 const express = require('express');
 const cors = require('cors');
 //const contract = require('./contractFunctions.js');
@@ -46,33 +45,54 @@ app.get('/api', (req, res) => {
 });
 
 app.post('/api/citizen/getBasicInfo', (req, res) => {
-    /*const schema = {
-        id: joi.string().min(11).max(11).required(),
-        qr: joi.string().min(10).required(),
-        tc: joi.string().min(11).max(11).required(),
-        password: joi.string().min(6).required()
-    };
-    const result = joi.validate(req.body, schema);
-    if (result.error) {
-        res.status(400).send(result.error.details[0].message);
+    if (req.body == null) {
+        res.status(400).send("Bad Request");
         return;
-    }*/
+    }
     const input = JSON.parse(JSON.stringify(req.body));
     if(input.qr != null)
     {
         const decrypted = crypto.AES.decrypt(input.qr, masterKey).toString(crypto.enc.Utf8);
-
+        // CODE : get citizen information
         res.send(citizenExample);
+        return;
     }
     else if(input.tc != null)
     {
         console.log(input.tc);
         const citizen = authInfo.find(c => c.id === input.tc);
+        if(!citizen)
+        {
+            res.status(400).send("No citizen found");
+            return;
+        }
         if(citizen.password === input.password)
+            // CODE: get citizen info from blockchain
             res.send(citizenExample);
         else
             res.status(400).send("Wrong password");
+        return;
     }
+});
+app.post('/api/citizen/getFullInfo', (req, res) => {
+    if (req.body == null) {
+        res.status(400).send("Bad Request");
+        return;
+    }
+    const input = JSON.parse(JSON.stringify(req.body));
+
+    const decrypted = crypto.AES.decrypt(input.qr, masterKey).toString(crypto.enc.Utf8);
+
+    const citizenTC = "x"; // CODE: get citizen TC from blockchain and get tc
+    const citizen = authInfo.find(c => c.id === citizenTC);
+    
+    if(citizen.password === input.password)
+        // CODE: get citizen full information 
+        res.send(citizenExample);
+    else
+        res.status(400).send("Wrong password");
+    return;
+    
 });
 
 app.post('/api/citizen/', (req, res) => {
