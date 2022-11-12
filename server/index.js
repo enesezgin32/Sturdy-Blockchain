@@ -117,16 +117,19 @@ app.post("/api/citizen/getBasicInfo", (req, res) => {
         const citizenInfo = citizens.find((c) => c.id === citizen.id);
         res.send(citizenInfo);
         return;
-    } else if (input.tc != null) {
-        console.log(input.tc);
+    } else if 
+    (input.tc != null) {
         const citizen = authInfo.find((c) => c.id === input.tc);
         if (!citizen) {
             res.status(400).send("No citizen found");
             return;
         }
         if (citizen.password === input.password)
-            // CODE: get citizen info from blockchain
-            res.send(citizenExample);
+        {
+            const citizenInfo = citizens.find((c) => c.id === citizen.id);
+            res.send(citizenInfo);
+            return;
+        }
         else res.status(400).send("Wrong password");
         return;
     }
@@ -158,12 +161,14 @@ app.post("/api/citizen/getFullInfo", async (req, res) => {
         let diagnoses = await contractFunc.getFullDiagnosesSelf(
             contract_patient
         );
+        //let permission = await contract_patient["hideOrShowDiagnose"]();
         let diagnosesJSON = [];
         for (let i = 0; i < diagnoses.length; i++) {
             let patientJSON = await selfMadeCrypto.getpatientJSON(
                 diagnoses[i],
                 patientPriv
             );
+
             diagnosesJSON.push(JSON.parse(patientJSON));
         }
         res.send(diagnosesJSON);
@@ -181,6 +186,7 @@ app.post("/api/citizen/changePermission", (req, res) => {
     const patientPriv = crypto.AES.decrypt(input.qr, masterKey).toString(
         crypto.enc.Utf8
     );
+    const patientWallet = new ethers.Wallet(patientPriv, provider);
     const contract_patient = new ethers.Contract(
         contractAddress,
         abi,
@@ -238,19 +244,39 @@ app.post("/api/doctor/getFullInfo", (req, res) => {
     const input = JSON.parse(JSON.stringify(req.body));
 
     if (input.tc != null) {
-        // CODE: get basic and full information
-        // CODE: check permissions
-        // SELF: decrypt diagnose
-        res.send(diagnoseExample);
-    } else if (input.qr != null) {
-        const decrypted = crypto.AES.decrypt(input.qr, masterKey).toString(
+
+        const citizenAuth = authInfo.find((c) => c.id === input.tc);
+        if (!citizenAuth) {
+            res.status(400).send("No citizen found");
+            return;
+        }
+        const citizenInfo = citizens.find((c) => c.id === citizenAuth.id);
+        res.send(citizenInfo);
+    } 
+    else if (input.qr != null) {
+        const patientPriv = crypto.AES.decrypt(input.qr, masterKey).toString(
             crypto.enc.Utf8
         );
-        const citizenTC = "x"; // CODE: get citizen TC from blockchain and get tc
-        const citizen = authInfo.find((c) => c.id === citizenTC);
-        // CODE: get basic and full information
-        // CODE: check permissions
-        // SELF: decrypt diagnose
+        const patientWallet = new ethers.Wallet(patientPriv, provider);
+        const contract_patient = new ethers.Contract(
+            contractAddress,
+            abi,
+            patientWallet
+        );
+        let diagnoses = await contractFunc.getFullDiagnosesSelf(
+            contract_patient
+        );
+        //let permission = await contract_patient["hideOrShowDiagnose"]();
+        let diagnosesJSON = [];
+        for (let i = 0; i < diagnoses.length; i++) {
+            let patientJSON = await selfMadeCrypto.getpatientJSON(
+                diagnoses[i],
+                patientPriv
+            );
+
+            diagnosesJSON.push(JSON.parse(patientJSON));
+        }
+        res.send(diagnosesJSON);
         res.send(diagnoseExample);
     }
     return;
