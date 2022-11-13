@@ -35,17 +35,9 @@ function HastaLogin() {
 
     const handleClick = async (e) => {
         e.preventDefault();
-
-        /*const sentObject = {
-            qr: null,
-            tc: tc,
-            password: şifre
-        }*/
-
-        //dispatch(generalInfoAction(sentObject));
-        //dispatch(pathAction(1));
         dispatch(hastaTcAction(tc));
         dispatch(hastaPasswordAction(şifre));
+        dispatch(pathAction(1));
         nav("/genel-bilgiler");
     }
 

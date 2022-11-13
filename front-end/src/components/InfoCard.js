@@ -36,7 +36,7 @@ function InfoCard(props) {
     const {bloodGroup,dateOfBirth,gender,name,nationality,surname,allergies} = generalInfo|| temp;
     
     useEffect(()=>{
-        console.log("generalInfo:",generalInfo)
+        // delete this piece of code
     },[generalInfo])
 
   return (

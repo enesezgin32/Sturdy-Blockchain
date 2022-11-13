@@ -52,18 +52,12 @@ export default function HastaGenelBilgileri() {
 
     useEffect(()=>{
       if (mount===false){
-        console.log("ilk if")
         setMount(true)
-        console.log("TC & PASSWORD:",hastaTc,hastaPassword)
         const obj = {
           tc: hastaTc,
           password: hastaPassword
         }
         dispatch(generalInfoAction(obj));
-      }
-      else{
-        console.log("son if")
-        console.log("TC & PASSWORD:",hastaTc,hastaPassword)
       }
     },[mount])
 
@@ -71,15 +65,15 @@ export default function HastaGenelBilgileri() {
     mount===true ?
     <Container>
       <InfoCard/>
-      {generalInfo===null && <InfoText>{ path===2 ? "Detaylı Hasta Bilgileri için lütfen hasta şifresi giriniz" : "Detaylı Hasta Bilgileri için lütfen QR kodunuzu okutunuz"}</InfoText>}
-      {generalInfo===null && path===2 && <InputWrapper>
+      {detailedInfo===null && <InfoText>{ path===2 ? "Detaylı Hasta Bilgileri için lütfen hasta şifresi giriniz" : "Detaylı Hasta Bilgileri için lütfen QR kodunuzu okutunuz"}</InfoText>}
+      {detailedInfo===null && path===2 && <InputWrapper>
         <TextField  style={{width:"100%"}} type='password' value={password} onChange={e=>setPassword(e.target.value)} id="outlined-basic" label="Şifre" variant="outlined" />
         <Button style={{marginLeft:"10px"}} variant="contained" onClick={handleClick}>
         Onayla
         </Button>
       </InputWrapper>}
-      {generalInfo===null && path===1 && <HastaDetailedInfoQR/>}
-      {generalInfo!==null && <DetailedInfo detailedInfo={detailedInfo}/>}
+      {detailedInfo===null && path===1 && <HastaDetailedInfoQR/>}
+      {detailedInfo!==null && <DetailedInfo/>}
     </Container> : <div/>
   )
 }
