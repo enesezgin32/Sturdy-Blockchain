@@ -212,7 +212,7 @@ const abi = [
 
 const httpProvider_Avax = "https://api.avax-test.network/ext/bc/C/rpc";
 
-const contractAddress = "0x1511b10671f97CEd2D52324Ca3c7229e6bC4a46A";
+const contractAddress = "0x1a3836bd6079F81cf66Bb67AA5395C82450bD138";
 
 //system
 
