@@ -4,7 +4,7 @@ const { ethers } = require("ethers");
 
 const args = { gaslimit: 21000 };
 httpProvider_Avax = "https://api.avax-test.network/ext/bc/C/rpc";
-contractAddress = "0x1511b10671f97CEd2D52324Ca3c7229e6bC4a46A";
+contractAddress = "0x1a3836bd6079F81cf66Bb67AA5395C82450bD138";
 adminPriv = "260210835d9bad02621e07ecdda7335f4b93cc8302cd7c77a876b18b56ed6913";
 doctorPriv = "f7bc15ca9d4503fa61f7ef3ac094d4e6a3f1ad83855a3f1b481adb9649c5b88c";
 patientPriv =
@@ -64,7 +64,7 @@ async function test() {
     };
     const patientPublicKey = crypto.getPublicKey(patientPriv);
     const encryptedDiagnose1 = crypto.encryptDiagnose(
-        diagnose2,
+        diagnose5,
         patientPublicKey
     );
     let response = await contractFunc.addDiagnose(
