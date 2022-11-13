@@ -1,7 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import styled from 'styled-components';
+import { useDispatch, useSelector } from 'react-redux';
+import { doctorQrAction, doctorPasswordAction } from '../actions/doctorActions';
+import { doctorInfoAction } from '../actions/doctorActions';
+import { useNavigate } from 'react-router-dom';
 
 const LoginWrapper = styled.div`
     display: flex;
@@ -24,13 +28,27 @@ const Header = styled.div`
 
 function DoktorLogin() {
     const [şifre,setŞifre] = useState("")
-    const [qr,setQr] = useState(null)
+    const qrDoctor = "U2FsdGVkX18AT/NtWnjOIx56QIzmXRQuWnx0xBTXt872IKs1v5u7o99hBJXiMEOVSVUJPD/6mBrrRLr6pNpv/2Zo2P7PyfZStk+Hz8DEtN+afMVvNDIRNuGUqMhDuBfy";
+    const dispatch = useDispatch();
+    const isDoctor = useSelector(state=>state.isDoctor);
+    const nav = useNavigate();
 
     const handleClick = (e) => {
         e.preventDefault();
-        console.log("şifre:",şifre)
-        console.log("qr:",qr)
+        const objSent = {
+            qr: qrDoctor,
+            password: şifre
+        }
+        dispatch(doctorQrAction(qrDoctor));
+        dispatch(doctorPasswordAction(şifre));
+        dispatch(doctorInfoAction(objSent));
     }
+
+    useEffect(()=>{
+        if  (isDoctor)
+            nav('/doktor-ekranı');
+    },[isDoctor])
+
 
   return (
     <LoginWrapper>

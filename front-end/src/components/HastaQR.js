@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { hastaQrAction, generalInfoAction } from '../actions/hastaActions'
@@ -22,17 +22,13 @@ const StyledImage = styled.img`
   cursor: pointer;
 `
 
-function HastaQR(props) {
-    //const {isDoctor} = props;
-
+function HastaQR({authType}) {
     const dispatch = useDispatch();
     const doctorPassword = useSelector(state=>state.doctorPassword);
-    const isDoctor = doctorPassword===null;
-
 
     const handleClick = (e) => {
       e.preventDefault();
-      if (isDoctor===true){
+      if (authType!=="Hasta"){
         //    eklenecek!!
       } else {
         const tempQR = "U2FsdGVkX19DsnGiOqJfuI0aYRLhN2f5ssmHd07WwFMwdEhzfg9j/qaL+XeqKAVIdzUx7VkeCxsWevp/aIgJrg4M8nq3+3DsWJVGfKch2IVkN09lNcjk57siu2W5Lubw";
@@ -43,12 +39,15 @@ function HastaQR(props) {
         dispatch(hastaQrAction(tempQR));
         dispatch(generalInfoAction(tempObj));
       }
-      
     }
+
+    useEffect(()=>{
+
+    },[])
 
   return (
     <Container>
-        <Header>{!isDoctor ? "QR ile kolay giriş" : "Önce QR okutunuz" }</Header> 
+        <Header>{authType==="Hasta" ? "QR ile kolay giriş" : "Önce QR okutunuz" }</Header> 
         <StyledImage onClick={handleClick} height='30px' width='auto' alt='camera-img' src='https://cdn-icons-png.flaticon.com/128/1067/1067297.png'/>
     </Container>
   )

@@ -1,7 +1,7 @@
 import {createStore,combineReducers,applyMiddleware} from 'redux'
 import {composeWithDevTools} from 'redux-devtools-extension'
 import thunk from 'redux-thunk'
-import { doctorPasswordReducer, doctorQrReducer } from './reducers/doctorReducer'
+import { doctorPasswordReducer, doctorQrReducer, isDoctorReducer } from './reducers/doctorReducer'
 import { detailedInfoReducer, generalInfoReducer, hastaPasswordReducer, hastaQrReducer, hastaTcReducer } from './reducers/hastaReducer'
 import { pathReducer } from './reducers/pathReducer'
 
@@ -13,7 +13,8 @@ const reducer = combineReducers({
     hastaPassword: hastaPasswordReducer,
     doctorQr: doctorQrReducer,
     doctorPassword: doctorPasswordReducer,
-    path: pathReducer
+    path: pathReducer,
+    isDoctor: isDoctorReducer
 })
 
 const initialState = {
@@ -24,7 +25,8 @@ const initialState = {
     hastaQr:null,
     hastaTc: null,
     hastaPassword: null,
-    doctorPassword: null
+    doctorPassword: null,
+    isDoctor: null
 }
 
 const middleware = [thunk]

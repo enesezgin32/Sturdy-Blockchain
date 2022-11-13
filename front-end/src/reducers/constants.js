@@ -6,3 +6,4 @@ export const SET_HASTA_QR = "SET_HASTA_QR";
 export const SET_HASTA_TC = "SET_HASTA_TC";
 export const SET_HASTA_PASSWORD = "SET_HASTA_PASSWORD";
 export const SET_DOCTOR_PASSWORD = "SET_DOCTOR_PASSWORD";
+export const SET_DOCTOR_AUTH = "SET_DOCTOR_AUTH";

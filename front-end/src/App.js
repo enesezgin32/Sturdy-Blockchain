@@ -2,13 +2,10 @@ import './App.css';
 import {BrowserRouter, Route, Routes} from 'react-router-dom'
 import Navbar from './components/Navbar';
 import InitialScreen from './pages/InitialScreen';
-import { useState } from 'react';
 import HastaGenelBilgileri from './pages/HastaGenelBilgileri';
+import DoktorEkranı from './pages/DoktorEkranı';
 
 function App() {
-  //const [generalInfoHasta,setGeneralInfoHasta] = useState(null)
-  //const [path,setPath] = useState(null)
-  //const [detailedInfo,setDetailedInfo] = useState(null)
 
   return (
     <div className="App">
@@ -17,6 +14,7 @@ function App() {
           <Routes>
               <Route exact path="/" element={<InitialScreen/>}></Route>
               <Route exact path="/genel-bilgiler" element={<HastaGenelBilgileri/>}></Route>
+              <Route exact path="/doktor-ekranı" element={<DoktorEkranı/>}></Route>
             </Routes>
       </BrowserRouter>
 

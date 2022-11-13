@@ -40,7 +40,7 @@ export const detailedInfoAction=(arg)=>async(dispatch)=>{
             .then((res) => {
                 console.log("RES:",res.data)
                 if (res.data){
-                    dispatch({type:SET_DETAILED_INFO ,payload:arg})
+                    dispatch({type:SET_DETAILED_INFO ,payload:res.data})
                 }
             })
             .catch(e=>console.log("catched:",e))

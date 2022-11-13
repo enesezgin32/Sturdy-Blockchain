@@ -10,12 +10,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { generalInfoAction } from '../actions/hastaActions';
 
 const Container = styled.div`
-    width: 65vw;
-    height: 75vh;
+    width: 45vw;
+    height: fit-content;
     margin: auto;
     margin-top: 10%;
     box-shadow: 0 0 10px black;
     padding-top: 40px;
+    padding-bottom: 20px;
+`
+
+const ContainerContainer = styled.div`
+  padding-bottom: 250px;
+  height: fit-content;
 `
 
 const InputWrapper = styled.div`
@@ -63,17 +69,20 @@ export default function HastaGenelBilgileri() {
 
   return (
     mount===true ?
-    <Container>
+    <ContainerContainer>
+      <Container>
       <InfoCard/>
-      {detailedInfo===null && <InfoText>{ path===2 ? "Detaylı Hasta Bilgileri için lütfen hasta şifresi giriniz" : "Detaylı Hasta Bilgileri için lütfen QR kodunuzu okutunuz"}</InfoText>}
-      {detailedInfo===null && path===2 && <InputWrapper>
+        {detailedInfo===null && <InfoText>{ path===2 ? "Detaylı Hasta Bilgileri için lütfen hasta şifresi giriniz" : "Detaylı Hasta Bilgileri için lütfen QR kodunuzu okutunuz"}</InfoText>}
+        {detailedInfo===null && path===2 && <InputWrapper>
         <TextField  style={{width:"100%"}} type='password' value={password} onChange={e=>setPassword(e.target.value)} id="outlined-basic" label="Şifre" variant="outlined" />
         <Button style={{marginLeft:"10px"}} variant="contained" onClick={handleClick}>
-        Onayla
+          Onayla
         </Button>
-      </InputWrapper>}
-      {detailedInfo===null && path===1 && <HastaDetailedInfoQR/>}
+        </InputWrapper>}
+        {detailedInfo===null && path===1 && <HastaDetailedInfoQR/>}
+      </Container> 
       {detailedInfo!==null && <DetailedInfo/>}
-    </Container> : <div/>
+    </ContainerContainer>
+      : <div/>
   )
 }
