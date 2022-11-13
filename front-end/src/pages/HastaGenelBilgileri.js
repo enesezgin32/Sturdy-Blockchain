@@ -66,11 +66,16 @@ export default function HastaGenelBilgileri() {
         }
         dispatch(generalInfoAction(obj));
 
-        const objSent = {
-          tc: "x",
-          password: "y"
+        if (isDoctor!==null){
+
+          const tempQr = "U2FsdGVkX1/kFEPp9uliH7ACt6tnaisdHQaA52yC2nuRqCvdjAo/XKVynH/eLMA6KMuE2+koCEL3Gngmvf2wg9lk7R0xCh21ZYUrlMogjAeb49JEo+oPZUNfcQ2dqimZ";
+          const objSent = {
+            qr: tempQr,
+            tc: "x",
+            password: "y"
+          }
+          dispatch(detailedInfoAction(objSent));
         }
-        dispatch(detailedInfoAction(objSent));
       }
     },[mount])
 
@@ -80,7 +85,7 @@ export default function HastaGenelBilgileri() {
       <Container>
       <InfoCard/>
         {detailedInfo===null && isDoctor===null && <InfoText>{ path===2 ? "Detaylı Hasta Bilgileri için lütfen hasta şifresi giriniz" : "Detaylı Hasta Bilgileri için lütfen QR kodunuzu okutunuz"}</InfoText>}
-        {detailedInfo===null && (path===2 || isDoctor===null) && <InputWrapper>
+        {detailedInfo===null && (path===2) && <InputWrapper>
         <TextField  style={{width:"100%"}} type='password' value={password} onChange={e=>setPassword(e.target.value)} id="outlined-basic" label="Şifre" variant="outlined" />
         <Button style={{marginLeft:"10px"}} variant="contained" onClick={handleClick}>
           Onayla
