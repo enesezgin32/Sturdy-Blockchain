@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import axios from 'axios'
+import { useDispatch } from 'react-redux'
+import { detailedInfoAction } from '../actions/hastaActions'
+import { pathAction } from '../actions/pathActions'
 
 const Container = styled.div`
     display: flex;
@@ -11,16 +13,9 @@ const Container = styled.div`
     margin: auto;
     height: 20%;
 `
-/*
-const Header = styled.div`
-    font-size: 22px;
-    color: #525656;
-    font-weight: 500;
-`*/
 
-function HastaDetailedInfoQR(props) {
-    //const {isDoctor} = props;
-    const {setDetailedInfo,setPath} = props;
+function HastaDetailedInfoQR() {
+    const dispatch = useDispatch();
 
     const handleClick = (e) => {
         e.preventDefault();
@@ -29,33 +24,9 @@ function HastaDetailedInfoQR(props) {
             qr: "U2FsdGVkX19DsnGiOqJfuI0aYRLhN2f5ssmHd07WwFMwdEhzfg9j/qaL+XeqKAVIdzUx7VkeCxsWevp/aIgJrg4M8nq3+3DsWJVGfKch2IVkN09lNcjk57siu2W5Lubw",
             password: "y"
         }
-
-
-        const getDetailedInfo = async() => {
-            let configObject = {
-            "url": 'http://localhost:5000/api/citizen/getFullInfo',
-            "method": "post",
-            "cors":"no-cors",
-            "headers": {
-                'Content-Type': 'application/json'
-                },
-            "data":sentObject
-            }
-    
-            axios.request(configObject )
-                .then((res) => {
-                    console.log("RES:",res.data)
-                    if (res.data){
-                        setDetailedInfo(res.data);
-                        setPath(null);
-                    }
-                })
-                .catch(e=>console.log("catched:",e))
-        }
-
-        getDetailedInfo();
+        dispatch(detailedInfoAction(sentObject));
+        dispatch(pathAction(null));
     }
-
 
   return (
     <Container>

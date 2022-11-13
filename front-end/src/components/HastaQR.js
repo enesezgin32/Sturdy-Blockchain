@@ -1,5 +1,7 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
+import { hastaQrAction, generalInfoAction } from '../actions/hastaActions'
 
 const Container = styled.div`
     display: flex;
@@ -21,11 +23,26 @@ const StyledImage = styled.img`
 `
 
 function HastaQR(props) {
-    const {isDoctor} = props;
+    //const {isDoctor} = props;
+
+    const dispatch = useDispatch();
+    const doctorPassword = useSelector(state=>state.doctorPassword);
+    const isDoctor = doctorPassword===null;
+
 
     const handleClick = (e) => {
       e.preventDefault();
-
+      if (isDoctor===true){
+        //    eklenecek!!
+      } else {
+        const tempQR = "U2FsdGVkX19DsnGiOqJfuI0aYRLhN2f5ssmHd07WwFMwdEhzfg9j/qaL+XeqKAVIdzUx7VkeCxsWevp/aIgJrg4M8nq3+3DsWJVGfKch2IVkN09lNcjk57siu2W5Lubw";
+        const tempObj = {
+          qr: tempQR,
+          password: "y"
+        }
+        dispatch(hastaQrAction(tempQR));
+        dispatch(generalInfoAction(tempObj));
+      }
       
     }
 

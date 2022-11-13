@@ -1,6 +1,8 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
+import { generalInfoAction, detailedInfoAction } from '../actions/hastaActions';
 
 const NavbarWrapper = styled.div`
     width: 100vw;
@@ -37,17 +39,23 @@ const LogoText = styled.div`
 `
 
 function Navbar(props) {
-    const {isLoggedIn, setGeneralInfoHasta, setDetailedInfo} = props;
+    //const {isLoggedIn, setGeneralInfoHasta, setDetailedInfo} = props;
     const nav = useNavigate();
+    const dispatch = useDispatch();
+
+    const generalInfo = useSelector(state=>state.generalInfo);
+
+    const handleExit = (e) => {
+        e.preventDefault();
+        dispatch(generalInfoAction(null));
+        dispatch(detailedInfoAction(null));
+        nav('/');
+    }
 
   return (
         <NavbarWrapper>
         <LogoText>LOGO</LogoText>
-        {isLoggedIn && <ExitButton onClick={()=>{
-            setGeneralInfoHasta(null);
-            setDetailedInfo(null);
-            nav('/');
-        }}>Çıkış Yap</ExitButton>}
+        {generalInfo && <ExitButton onClick={handleExit}>Çıkış Yap</ExitButton>}
         </NavbarWrapper>
     )
 }

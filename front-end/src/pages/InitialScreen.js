@@ -46,7 +46,7 @@ const LoginFormContainer = styled.div`
 `
 
 function InitialScreen(props) {
-    const {setGeneralInfoHasta, setPath} = props;
+    //const {setGeneralInfoHasta, setPath} = props;
     const [authType,setAuthType] = useState("Hasta")
 
     const setterFunction = (arg)=>{
@@ -60,10 +60,10 @@ function InitialScreen(props) {
             <LoginFormContainer>
                 <TempWrapperHasta authType={authType}>
                     <HastaQR/>
-                    <HastaLogin setPath={setPath} setGeneralInfoHasta={setGeneralInfoHasta}/>
+                    <HastaLogin/>
                 </TempWrapperHasta>
                 <TempWrapperDoktor authType={authType}>
-                    <HastaQR isDoctor={true}/>
+                    <HastaQR/>
                     <DoktorLogin/>
                 </TempWrapperDoktor>
             </LoginFormContainer>

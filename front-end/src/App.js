@@ -6,18 +6,17 @@ import { useState } from 'react';
 import HastaGenelBilgileri from './pages/HastaGenelBilgileri';
 
 function App() {
-  const [generalInfoHasta,setGeneralInfoHasta] = useState(null)
-  const [path,setPath] = useState(null)
-  const [detailedInfo,setDetailedInfo] = useState(null)
+  //const [generalInfoHasta,setGeneralInfoHasta] = useState(null)
+  //const [path,setPath] = useState(null)
+  //const [detailedInfo,setDetailedInfo] = useState(null)
 
   return (
     <div className="App">
     <BrowserRouter>
-          <Navbar setDetailedInfo={()=>setDetailedInfo(null)} isLoggedIn={generalInfoHasta} setGeneralInfoHasta={setGeneralInfoHasta}></Navbar>
+          <Navbar></Navbar>
           <Routes>
-
-              <Route exact path="/" element={<InitialScreen setPath={setPath} setGeneralInfoHasta={setGeneralInfoHasta}/>}></Route>
-              <Route exact path="/genel-bilgiler" element={<HastaGenelBilgileri setPath={setPath} setDetailedInfo={setDetailedInfo} detailedInfo={detailedInfo}  whichPath={path} generalInfoHasta={generalInfoHasta} />}></Route>
+              <Route exact path="/" element={<InitialScreen/>}></Route>
+              <Route exact path="/genel-bilgiler" element={<HastaGenelBilgileri/>}></Route>
             </Routes>
       </BrowserRouter>
 
