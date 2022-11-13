@@ -31,3 +31,8 @@ export const doctorInfoAction=(arg)=>async(dispatch)=>{
             })
             .catch(e=>console.log("catched:",e))
 }
+
+export const nulifyDoctorAction=()=>async(dispatch)=>{
+    console.log("DOKTORUN DATALARI NULLAMASI LAZIM")
+    dispatch({type:SET_DOCTOR_AUTH ,payload:null})
+}

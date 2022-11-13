@@ -24,7 +24,6 @@ const StyledImage = styled.img`
 
 function HastaQR({authType}) {
     const dispatch = useDispatch();
-    const doctorPassword = useSelector(state=>state.doctorPassword);
 
     const handleClick = (e) => {
       e.preventDefault();

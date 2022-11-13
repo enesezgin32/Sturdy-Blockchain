@@ -3,7 +3,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
-import { doctorQrAction, doctorPasswordAction } from '../actions/doctorActions';
+import { doctorQrAction, doctorPasswordAction, nulifyDoctorAction } from '../actions/doctorActions';
 import { doctorInfoAction } from '../actions/doctorActions';
 import { useNavigate } from 'react-router-dom';
 
@@ -42,12 +42,15 @@ function DoktorLogin() {
         dispatch(doctorQrAction(qrDoctor));
         dispatch(doctorPasswordAction(şifre));
         dispatch(doctorInfoAction(objSent));
+
+        nav('/doktor-ekranı');
     }
 
     useEffect(()=>{
-        if  (isDoctor)
-            nav('/doktor-ekranı');
-    },[isDoctor])
+        return () => {
+            dispatch(nulifyDoctorAction());
+        }
+    },[])
 
 
   return (

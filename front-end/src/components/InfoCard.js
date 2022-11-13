@@ -29,9 +29,8 @@ const BoldText = styled.div`
     display: inline;
 `
 
-function InfoCard(props) {
+function InfoCard() {
     const generalInfo = useSelector(state=>state.generalInfo);
-    console.log("AAAAAAAAAAAAAAAAAAAAAA:",generalInfo)
     const temp = {bloodGroup:null,dateOfBirth: null,nationality: null,surname:null,allergies:null,gender:null,name:null};
     const {bloodGroup,dateOfBirth,gender,name,nationality,surname,allergies} = generalInfo|| temp;
     
@@ -62,24 +61,3 @@ function InfoCard(props) {
 }
 
 export default InfoCard
-
-/**
- * <Container>
-        <img height="400px" width="auto" src="https://www.nicepng.com/png/detail/73-730154_open-default-profile-picture-png.png" alt="default-pp"/>
-        <RightColumn>
-            <div style={{fontWeight:"800"}}>{`${name} ${surname}`}</div>
-            <div><BoldText>Doğum tarihi:</BoldText> {dateOfBirth}</div>
-            <div><BoldText>Kan Grubu:</BoldText> {bloodGroup}</div>
-            <div><BoldText>Cinsiyeti:</BoldText> {gender}</div>
-            <div><BoldText>Uyruk:</BoldText> {nationality}</div>
-            <div><BoldText>Alerjiler:</BoldText></div>
-            <ul style={{paddingLeft:"40px"}}>
-                {allergies && Object.keys(allergies).map((item,index)=>(
-                <li key={index}>
-                    {`${item}: ${allergies[item]}`}
-                </li>
-                ))}
-            </ul>
-        </RightColumn>
-    </Container>
- */

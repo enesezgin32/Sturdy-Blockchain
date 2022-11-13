@@ -57,3 +57,12 @@ export const hastaPasswordAction=(arg)=>async(dispatch)=>{
 export const hastaQrAction=(arg)=>async(dispatch)=>{
     dispatch({type:SET_HASTA_QR ,payload:arg})
 }
+
+export const nulifyDetailedInfo=()=>async(dispatch)=>{
+    dispatch({type:SET_DETAILED_INFO ,payload:null})
+}
+
+export const nulifyGeneralInfo=()=>async(dispatch)=>{
+    console.log("general ınfoyu sıfırlaması lazım!")
+    dispatch({type:SET_GENERAL_INFO ,payload:null})
+}
