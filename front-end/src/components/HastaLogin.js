@@ -4,6 +4,9 @@ import Button from '@mui/material/Button';
 import styled from 'styled-components';
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { generalInfoAction, hastaTcAction, hastaPasswordAction } from '../actions/hastaActions';
+import { pathAction } from '../actions/pathActions';
 
 const LoginWrapper = styled.div`
     display: flex;
@@ -24,46 +27,18 @@ const Header = styled.div`
 `
 
 
-function HastaLogin(props) {
-    const {setGeneralInfoHasta, setPath} = props;
+function HastaLogin() {
     const nav = useNavigate()
+    const dispatch = useDispatch()
     const [tc,setTc] = useState("")
     const [şifre,setŞifre] = useState("")
 
     const handleClick = async (e) => {
         e.preventDefault();
-        console.log("TC:",tc)
-        console.log("şifre:",şifre)
-
-        const sentObject = {
-            qr: null,
-            tc: tc,
-            password: şifre
-        }
-
-        const getInfo = async() => {
-            let configObject = {
-            "url": "http://localhost:5000/api/citizen/getBasicInfo",
-            "method": "post",
-            "cors":"no-cors",
-            "headers": {
-                'Content-Type': 'application/json'
-                },
-            "data":sentObject
-            }
-    
-            axios.request(configObject )
-                .then((res) => {
-                    console.log("RES:",res.data)
-                    if (res.data){
-                        nav("/genel-bilgiler")
-                        setGeneralInfoHasta(res.data);
-                        setPath(1);
-                    }
-                })
-                .catch(e=>console.log("catched:",e))
-        }
-        getInfo();
+        dispatch(hastaTcAction(tc));
+        dispatch(hastaPasswordAction(şifre));
+        dispatch(pathAction(1));
+        nav("/genel-bilgiler");
     }
 
   return (

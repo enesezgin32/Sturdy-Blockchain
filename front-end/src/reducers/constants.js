@@ -1,0 +1,8 @@
+export const SET_PATH = "SET_PATH";
+export const SET_GENERAL_INFO = "SET_GENERAL_INFO";
+export const SET_DETAILED_INFO = "SET_DETAILED_INFO";
+export const SET_DOCTOR_QR = "SET_DOCTOR_QR";
+export const SET_HASTA_QR = "SET_HASTA_QR";
+export const SET_HASTA_TC = "SET_HASTA_TC";
+export const SET_HASTA_PASSWORD = "SET_HASTA_PASSWORD";
+export const SET_DOCTOR_PASSWORD = "SET_DOCTOR_PASSWORD";
