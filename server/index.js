@@ -12,6 +12,8 @@ const httpProvider_Avax = "https://api.avax-test.network/ext/bc/C/rpc";
 const provider = new ethers.providers.JsonRpcProvider(httpProvider_Avax);
 const abi = contractFunc.abi;
 
+let currentQR = null;
+
 const contractAddress = "0x1511b10671f97CEd2D52324Ca3c7229e6bC4a46A";
 const citizens = [
     {
@@ -106,7 +108,17 @@ app.use(cors({ origin: "*" }));
 app.get("/api", (req, res) => {
     res.send(ciphertext);
 });
-
+app.post("/api/applyQR", (req, res) => {
+    console.log(req.body);
+    const input = JSON.parse(JSON.stringify(req.body));
+    currentQR = input.qr;
+    res.send("OK");
+});
+app.get("/api/checkQR", (req, res) => {
+    const temp = currentQR;
+    currentQR = null;
+    res.send(temp);
+});
 app.post("/api/citizen/getBasicInfo", (req, res) => {
     if (req.body == null) {
         res.status(400).send("Bad Request");

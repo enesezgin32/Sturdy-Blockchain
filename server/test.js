@@ -33,16 +33,34 @@ async function test() {
     );
 
     const diagnose1 = {
-        diagnose: "Kadircan has a cold",
+        diagnose: "Yemek zehirlenmesi, bakteriyel",
         drug: "Paracetamol",
-        date: "23.12.2020",
-        doctor: "Dr. Kadircan Bozkurt",
+        date: "11.02.2020",
+        doctor: "Dr. Enes Sezgin",
     };
     const diagnose2 = {
-        diagnose: "Enes has a cold",
-        drug: "Paracetamol",
-        date: "23.12.2020",
-        doctor: "Dr. Enes Bozkurt",
+        diagnose: "Viral enfeksiyon",
+        drug: "ibucold",
+        date: "12.12.2020",
+        doctor: "Dr. Ozan Cinci",
+    };
+    const diagnose3 = {
+        diagnose: "Psikolojik travma",
+        drug: "prozac",
+        date: "13.01.2022",
+        doctor: "Dr. Enes Sezgin",
+    };
+    const diagnose4 = {
+        diagnose: "Soğuk algınlığı",
+        drug: "ibucold",
+        date: "12.12.2022",
+        doctor: "Dr. Ozan Cinci",
+    };
+    const diagnose5 = {
+        diagnose: "Yüksek ateş",
+        drug: "ibucold",
+        date: "23.12.2022",
+        doctor: "Dr. Enes Sezgin",
     };
     const patientPublicKey = crypto.getPublicKey(patientPriv);
     const encryptedDiagnose1 = crypto.encryptDiagnose(
