@@ -59,11 +59,11 @@ function InitialScreen(props) {
             
             <LoginFormContainer>
                 <TempWrapperHasta authType={authType}>
-                    <HastaQR/>
+                    <HastaQR authType={authType}/>
                     <HastaLogin/>
                 </TempWrapperHasta>
                 <TempWrapperDoktor authType={authType}>
-                    <HastaQR/>
+                    <HastaQR authType={authType}/>
                     <DoktorLogin/>
                 </TempWrapperDoktor>
             </LoginFormContainer>

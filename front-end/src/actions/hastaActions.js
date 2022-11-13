@@ -40,7 +40,7 @@ export const detailedInfoAction=(arg)=>async(dispatch)=>{
             .then((res) => {
                 console.log("RES:",res.data)
                 if (res.data){
-                    dispatch({type:SET_DETAILED_INFO ,payload:arg})
+                    dispatch({type:SET_DETAILED_INFO ,payload:res.data})
                 }
             })
             .catch(e=>console.log("catched:",e))
@@ -56,4 +56,13 @@ export const hastaPasswordAction=(arg)=>async(dispatch)=>{
 
 export const hastaQrAction=(arg)=>async(dispatch)=>{
     dispatch({type:SET_HASTA_QR ,payload:arg})
+}
+
+export const nulifyDetailedInfo=()=>async(dispatch)=>{
+    dispatch({type:SET_DETAILED_INFO ,payload:null})
+}
+
+export const nulifyGeneralInfo=()=>async(dispatch)=>{
+    console.log("general ınfoyu sıfırlaması lazım!")
+    dispatch({type:SET_GENERAL_INFO ,payload:null})
 }

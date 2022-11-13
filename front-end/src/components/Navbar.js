@@ -2,7 +2,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
-import { generalInfoAction, detailedInfoAction } from '../actions/hastaActions';
+import { nulifyDoctorAction } from '../actions/doctorActions';
+import { nulifyGeneralInfo, nulifyDetailedInfo } from '../actions/hastaActions';
 
 const NavbarWrapper = styled.div`
     width: 100vw;
@@ -23,7 +24,7 @@ const NavbarWrapper = styled.div`
 
 const ExitButton = styled.div`
     cursor: pointer;
-    font-size: 25px;
+    font-size: 20px;
     color: white;
     transition: all 0.2s ease-in-out;
 
@@ -38,25 +39,38 @@ const LogoText = styled.div`
     cursor: default;
 `
 
+const DoctorText = styled.div`
+    font-size: 23px;
+    cursor: default;
+    color: white;
+`
+
 function Navbar(props) {
-    //const {isLoggedIn, setGeneralInfoHasta, setDetailedInfo} = props;
     const nav = useNavigate();
     const dispatch = useDispatch();
 
     const generalInfo = useSelector(state=>state.generalInfo);
+    const isDoctor = useSelector(state=>state.isDoctor);
 
     const handleExit = (e) => {
         e.preventDefault();
-        dispatch(generalInfoAction(null));
-        dispatch(detailedInfoAction(null));
         nav('/');
+        dispatch(nulifyGeneralInfo());
+        dispatch(nulifyDetailedInfo());
+        dispatch(nulifyDoctorAction());
     }
 
   return (
+        isDoctor===null ?
         <NavbarWrapper>
-        <LogoText>LOGO</LogoText>
-        {generalInfo && <ExitButton onClick={handleExit}>Çıkış Yap</ExitButton>}
+            <LogoText>E-KALE</LogoText>
+            {generalInfo && <ExitButton onClick={handleExit}>Çıkış Yap</ExitButton>}
         </NavbarWrapper>
+        : <NavbarWrapper>
+            <LogoText>LOGO</LogoText>
+                <DoctorText>{`${isDoctor.name} ${isDoctor.surname} | ${isDoctor.hospital}/${isDoctor.speciality}`}</DoctorText>
+                <ExitButton onClick={handleExit}>Çıkış Yap</ExitButton>
+            </NavbarWrapper>
     )
 }
 

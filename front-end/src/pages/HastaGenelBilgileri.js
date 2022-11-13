@@ -7,15 +7,21 @@ import HastaQR from '../components/HastaQR';
 import HastaDetailedInfoQR from '../components/HastaDetailedInfoQR';
 import DetailedInfo from '../components/DetailedInfo';
 import { useDispatch, useSelector } from 'react-redux';
-import { generalInfoAction } from '../actions/hastaActions';
+import { detailedInfoAction, generalInfoAction } from '../actions/hastaActions';
 
 const Container = styled.div`
-    width: 65vw;
-    height: 75vh;
+    width: 45vw;
+    height: fit-content;
     margin: auto;
     margin-top: 10%;
     box-shadow: 0 0 10px black;
     padding-top: 40px;
+    padding-bottom: 20px;
+`
+
+const ContainerContainer = styled.div`
+  padding-bottom: 250px;
+  height: fit-content;
 `
 
 const InputWrapper = styled.div`
@@ -45,9 +51,10 @@ export default function HastaGenelBilgileri() {
 
     const hastaTc = useSelector(state=>state.hastaTc);
     const hastaPassword = useSelector(state=>state.hastaPassword);
+    const isDoctor = useSelector(state=>state.isDoctor);
 
     const handleClick = () => {
-
+      
     }
 
     useEffect(()=>{
@@ -58,22 +65,36 @@ export default function HastaGenelBilgileri() {
           password: hastaPassword
         }
         dispatch(generalInfoAction(obj));
+
+        if (isDoctor!==null){
+
+          const tempQr = "U2FsdGVkX1/kFEPp9uliH7ACt6tnaisdHQaA52yC2nuRqCvdjAo/XKVynH/eLMA6KMuE2+koCEL3Gngmvf2wg9lk7R0xCh21ZYUrlMogjAeb49JEo+oPZUNfcQ2dqimZ";
+          const objSent = {
+            qr: tempQr,
+            tc: "x",
+            password: "y"
+          }
+          dispatch(detailedInfoAction(objSent));
+        }
       }
     },[mount])
 
   return (
     mount===true ?
-    <Container>
+    <ContainerContainer>
+      <Container>
       <InfoCard/>
-      {detailedInfo===null && <InfoText>{ path===2 ? "Detaylı Hasta Bilgileri için lütfen hasta şifresi giriniz" : "Detaylı Hasta Bilgileri için lütfen QR kodunuzu okutunuz"}</InfoText>}
-      {detailedInfo===null && path===2 && <InputWrapper>
+        {detailedInfo===null && isDoctor===null && <InfoText>{ path===2 ? "Detaylı Hasta Bilgileri için lütfen hasta şifresi giriniz" : "Detaylı Hasta Bilgileri için lütfen QR kodunuzu okutunuz"}</InfoText>}
+        {detailedInfo===null && (path===2) && <InputWrapper>
         <TextField  style={{width:"100%"}} type='password' value={password} onChange={e=>setPassword(e.target.value)} id="outlined-basic" label="Şifre" variant="outlined" />
         <Button style={{marginLeft:"10px"}} variant="contained" onClick={handleClick}>
-        Onayla
+          Onayla
         </Button>
-      </InputWrapper>}
-      {detailedInfo===null && path===1 && <HastaDetailedInfoQR/>}
+        </InputWrapper>}
+        {detailedInfo===null && path===1 && <HastaDetailedInfoQR/>}
+      </Container> 
       {detailedInfo!==null && <DetailedInfo/>}
-    </Container> : <div/>
+    </ContainerContainer>
+      : <div/>
   )
 }
