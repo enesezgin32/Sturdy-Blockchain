@@ -63,7 +63,7 @@ function Navbar(props) {
   return (
         isDoctor===null ?
         <NavbarWrapper>
-            <LogoText>LOGO</LogoText>
+            <LogoText>E-KALE</LogoText>
             {generalInfo && <ExitButton onClick={handleExit}>Çıkış Yap</ExitButton>}
         </NavbarWrapper>
         : <NavbarWrapper>
