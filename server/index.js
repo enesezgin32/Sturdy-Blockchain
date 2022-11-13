@@ -52,7 +52,7 @@ const doctors = [
         hospital: "Istanbul University",
     },
     {
-        id: "10154859744",
+        id: "x",
         name: "Kadircan",
         surname: "Bozkurt",
         speciality: "Cardiologist",
@@ -64,6 +64,7 @@ const diagnoseExample = {
     drug: "Paracetamol",
     date: "23.12.2020",
     doctor: "Dr. Kadircan Bozkurt",
+    hospital : "Istanbul University"
 };
 const doctorExample = {
     id: "10154859744",
@@ -87,6 +88,11 @@ const authInfo = [
         id: "x",
         password: "y",
         address: "0x4fBB8d4fCFb0C9785eBBf83536ddd32f36AB6083",
+    },
+    {
+        id: "x",
+        password: "y",
+        address: "0x240e969cdf99fdf65a500Ebf2901Ea0DbbFb10fe",
     },
 ];
 const ciphertext = crypto.AES.encrypt(
@@ -212,9 +218,12 @@ app.post("/api/doctor/login", async (req, res) => {
     );
     const doctorWallet = new ethers.Wallet(doctorPriv, provider);
     const doctorAddress = doctorWallet.address;
-
+    
     const doctorAuth = authInfo.find((c) => c.address === doctorAddress);
-
+    if (!doctorAuth) {
+        res.status(400).send("No doctor found");
+        return;
+    }
     if (doctorAuth.password === input.password) {
         const contract_doctor = new ethers.Contract(
             contractAddress,
@@ -233,7 +242,9 @@ app.post("/api/doctor/login", async (req, res) => {
             res.status(400).send("Not a doctor");
             return;
         }
-    } else res.status(400).send("Wrong password");
+    } 
+    else 
+        res.status(400).send("Wrong password");
     return;
 });
 
@@ -252,21 +263,20 @@ app.post("/api/doctor/getFullInfo", async (req, res) => {
         }
         const citizenInfo = citizens.find((c) => c.id === citizenAuth.id);
         res.send(citizenInfo);
-    } else if (input.qr != null) {
-        const patientPriv = crypto.AES.decrypt(input.qr, masterKey).toString(
+    } 
+    else if(input.citizenqr != null && input.doctorqr != null) {
+        const patientPriv = crypto.AES.decrypt(input.citizenqr, masterKey).toString(
             crypto.enc.Utf8
         );
-        const citizenTC = "x"; // CODE: get citizen TC from blockchain and get tc
-        const citizen = authInfo.find((c) => c.id === citizenTC);
-        // CODE: get basic and full information
-        // CODE: check permissions
-        // inputs: doctor qr, hasta qr, doctor password
-        doctorPriv =
-            "f7bc15ca9d4503fa61f7ef3ac094d4e6a3f1ad83855a3f1b481adb9649c5b88c";
+        const doctorPriv = crypto.AES.decrypt(input.doctorqr, masterKey).toString(
+            crypto.enc.Utf8
+        );
         const doctorWallet = new ethers.Wallet(doctorPriv, provider);
-        patientPriv =
-            "2c5a52e5fc79e49c9784d7b7952ae79302ba0e9d93b97cbfbc6725f56b12647b";
         const patientWallet = new ethers.Wallet(patientPriv, provider);
+
+        const citizen = authInfo.find((c) => c.address === patientWallet.address);
+        const citizenInfo = citizens.find((c) => c.id === citizen.id);
+
         const contract_doctor = new ethers.Contract(
             contractAddress,
             abi,
@@ -282,7 +292,7 @@ app.post("/api/doctor/getFullInfo", async (req, res) => {
             patientWallet.address
         );
         let permissions = await contractFunc.getPermission(contract_patient);
-        let diagnosesJSON = [];
+        let diagnosesJSON = [citizenInfo];
         for (let i = 0; i < diagnoses.length; i++) {
             let patientJSON = await selfMadeCrypto.getpatientJSON(
                 diagnoses[i],
@@ -292,9 +302,7 @@ app.post("/api/doctor/getFullInfo", async (req, res) => {
                 diagnosesJSON.push(JSON.parse(patientJSON));
             }
         }
-
-        // SELF: decrypt diagnose
-        res.send(diagnoseExample);
+        res.send(diagnosesJSON);
     }
     return;
 });
