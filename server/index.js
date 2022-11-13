@@ -12,7 +12,7 @@ const httpProvider_Avax = "https://api.avax-test.network/ext/bc/C/rpc";
 const provider = new ethers.providers.JsonRpcProvider(httpProvider_Avax);
 const abi = contractFunc.abi;
 
-const contractAddress = "0x69d06eb87b9939AACE8a49b505D2a0F5262D38c5";
+const contractAddress = "0x1511b10671f97CEd2D52324Ca3c7229e6bC4a46A";
 const citizens = [
     {
         id: "10154859744",
@@ -190,11 +190,14 @@ app.post("/api/citizen/changePermission", (req, res) => {
         abi,
         patientWallet
     );
+    res.send("Permission changed");
+    return;
     contractFunc.changePermission(
         contract_patient,
         input.index,
         input.permission
     );
+
 });
 
 app.post("/api/doctor/login", async (req, res) => {

@@ -269,8 +269,8 @@ async function getFullDiagnosesSelf(Contract) {
     return response;
 }
 
-async function changePermission(Contract, permission) {
-    let response = await Contract["hideOrShowDiagnose"](permission);
+async function changePermission(Contract, index, permission) {
+    let response = await Contract["hideOrShowDiagnose"](index, permission);
 
     const transactionReceipt = await response.wait(1);
 }
