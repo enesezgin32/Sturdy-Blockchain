@@ -8,9 +8,10 @@ Sturdy tries to construct more secure storage system which utilizes blockchain t
 https://youtu.be/g1WG3G8DXg4
 
 ## Contributors:
-- Ozan Cinci -> Entire Front-end and help to backend
+- Kadircan Bozkurt -> Blockchain and Backend
+- Ozan Cinci -> Entire Front-end and backend
 - Enes Sezgin -> Backend
-- Kadircan Bozkurt -> Blockchain
+
 
 ## Tech stack:
 - ReactJS
